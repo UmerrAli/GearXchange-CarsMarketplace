@@ -8,8 +8,8 @@ function CarCard({ car }) {
       <div className="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-300 hover:border-gray-500 transition duration-300 cursor-pointer w-64">
         <div className="relative w-full h-40">
           <img
-            src={car.images.at(0)}
-            alt={car.name}
+            src={JSON.parse(car.images).at(0)}
+            alt={car.title}
             className="w-full h-full object-cover"
           />
         </div>

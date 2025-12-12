@@ -6,34 +6,65 @@ const supabase = createClient(
   import.meta.env.VITE_SUPABASE_KEY
 );
 
-async function uploadFile(file) {
-  const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
-  console.log("Uploading file:", fileName);
+// ==================== AUTHENTICATION ====================
 
-  const { data, error } = await supabase.storage
-    .from("carImages")
-    .upload(fileName, file);
+/**
+ * Sign up a new user with email and password
+ * @param {string} email - User email
+ * @param {string} password - User password
+ * @returns {Promise<{user, error}>}
+ */
+export const signUp = async (email, password) => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+  return { user: data.user, error };
+};
 
-  if (error) {
-    console.error("File upload error:", error);
-    return null;
-  }
+/**
+ * Sign in a user with email and password
+ * @param {string} email - User email
+ * @param {string} password - User password
+ * @returns {Promise<{user, session, error}>}
+ */
+export const signIn = async (email, password) => {
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  return { user: data.user, session: data.session, error };
+};
 
-  console.log("File uploaded successfully:", data);
+/**
+ * Sign out the current user
+ * @returns {Promise<{error}>}
+ */
+export const signOut = async () => {
+  const { error } = await supabase.auth.signOut();
+  return { error };
+};
 
-  // Retrieve the public URL of the uploaded file
-  const { data: publicUrlData, error: urlError } = supabase.storage
-    .from("carImages")
-    .getPublicUrl(fileName);
+/**
+ * Get the current authenticated user
+ * @returns {Promise<{user, error}>}
+ */
+export const getCurrentUser = async () => {
+  const { data, error } = await supabase.auth.getUser();
+  return { user: data.user, error };
+};
 
-  if (urlError) {
-    console.error("Error retrieving public URL:", urlError);
-    return null;
-  }
+/**
+ * Listen to auth state changes
+ * @param {function} callback - Callback function when auth state changes
+ * @returns {function} Unsubscribe function
+ */
+export const onAuthStateChange = (callback) => {
+  const { data } = supabase.auth.onAuthStateChange((event, session) => {
+    callback(session?.user || null);
+  });
+  return data.subscription.unsubscribe;
+};
 
-  console.log("Public URL:", publicUrlData.publicUrl);
 
-  return publicUrlData.publicUrl;
-}
-
-export { uploadFile };
+export { supabase };

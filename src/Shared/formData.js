@@ -1,4 +1,4 @@
-const features = [
+const features_Defination = [
   { name: "ac", label: "Air Conditioning" },
   { name: "alloy", label: "Alloy Rims" },
   { name: "abs", label: "ABS" },
@@ -78,4 +78,4 @@ const carDetails = [
   { name: "milage", label: "Milage (km)", type: "number", isDropdown: false },
 ];
 
-export { features, carDetails, carMakes, cities, prices };
+export { features_Defination, carDetails, carMakes, cities, prices };

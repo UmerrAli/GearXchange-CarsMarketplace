@@ -1,6 +1,6 @@
 import React from "react";
-import { featuredCars } from "./../../Shared/featuredCarData";
-import CarCard from "../../components/CarCard";
+import { featuredCars } from "../Shared/featuredCarData";
+import CarCard from "./CarCard";
 import {
   Carousel,
   CarouselContent,

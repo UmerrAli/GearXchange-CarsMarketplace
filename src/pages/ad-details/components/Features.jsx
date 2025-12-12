@@ -1,12 +1,13 @@
+import { features_Defination } from "../../../Shared/formData";
 import React from "react";
-import { features } from "./../../Shared/formData";
 import { CiCircleCheck } from "react-icons/ci";
 
 function Features({ adDetails }) {
-  // Filter features with `true` values in adDetails
-  const availableFeatures = features.filter(
-    (feature) => adDetails[feature.name] === "true"
-  );
+  const features = JSON.parse(adDetails.features);
+  const availableFeatures = features_Defination
+    .filter((featureDef) => features[featureDef.name])
+    .map((featureDef) => featureDef.label);
+  console.log(availableFeatures);
 
   return (
     <div>
@@ -15,7 +16,7 @@ function Features({ adDetails }) {
         {availableFeatures.length > 0 ? (
           availableFeatures.map((feature) => (
             <li
-              key={feature.name}
+              key={feature}
               className="text-lg text-gray-700 flex items-center"
             >
               <span
@@ -24,7 +25,7 @@ function Features({ adDetails }) {
               >
                 <CiCircleCheck />
               </span>
-              {feature.label}
+              {feature}
             </li>
           ))
         ) : (

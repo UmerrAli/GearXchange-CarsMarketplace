@@ -13,7 +13,7 @@ function DetailsHeader({ adDetails }) {
       <h1 className="text-2xl font-bold px-56">{adDetails.title}</h1>
       <Carousel className="mt-5 max-w-4xl mx-auto flex items-center justify-center">
         <CarouselContent>
-          {adDetails.images.map((image, index) => (
+          {JSON.parse(adDetails.images).map((image, index) => (
             <CarouselItem
               key={index}
               className="flex justify-center items-center"

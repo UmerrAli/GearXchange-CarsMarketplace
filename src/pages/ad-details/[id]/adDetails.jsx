@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import Header from "../../components/Header";
+import { useState, useEffect } from "react";
+import Header from "../../../components/Header";
 import DetailsHeader from "../components/DetailsHeader";
 import { useParams } from "react-router-dom";
-import { db } from "../../../configs/firebase-config";
-import { doc, getDoc } from "firebase/firestore";
+import { supabase } from "../../../../configs/supabase-config";
 import Features from "../components/Features";
-import { Button } from "../../components/ui/button";
+import { Button } from "../../../components/ui/button";
 
 function AdDetails() {
   const { id } = useParams();
@@ -15,14 +14,14 @@ function AdDetails() {
   useEffect(() => {
     const fetchAdDetails = async () => {
       try {
-        const docRef = doc(db, "cars", id);
-        const docSnap = await getDoc(docRef);
+        const { data, error } = await supabase
+          .from("cars")
+          .select("*")
+          .eq("id", id)
+          .single();
 
-        if (docSnap.exists()) {
-          setAdDetails(docSnap.data());
-        } else {
-          console.error("No such document!");
-        }
+        if (error) throw error;
+        setAdDetails(data);
       } catch (error) {
         console.error("Error fetching ad details:", error);
       } finally {

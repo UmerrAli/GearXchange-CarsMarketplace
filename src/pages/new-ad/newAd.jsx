@@ -1,13 +1,11 @@
-import React, { useState } from "react";
-import Header from "../components/Header";
+import { useState } from "react";
+import Header from "../../components/Header";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "../components/ui/button";
+import { Button } from "../../components/ui/button";
 import UploadImages from "./components/UploadImages";
-import { db } from "./../../configs/firebase-config";
-import { addDoc, collection } from "firebase/firestore";
 import { Label } from "@/components/ui/label";
-import { features, carDetails } from "./../Shared/formData";
+import { features_Defination, carDetails } from "../../Shared/formData";
 import {
   Select,
   SelectItem,
@@ -16,16 +14,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { uploadFile } from "./../../configs/supabase-config";
-import { useUser } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
+import { createAd } from "../../db/createAd";
+import { uploadFile } from "../../db/uploadFile";
+import { useAuth } from "../../contexts/useAuth";
 
 function NewAd() {
-  const { user } = useUser();
   const [formData, setFormData] = useState({});
   const [selectedFileList, setSelectedFileList] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { user } = useAuth();
 
   const handleInputChange = (name, value) => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
@@ -36,7 +35,6 @@ function NewAd() {
     try {
       const newUrls = await Promise.all(
         selectedFileList.map(async (file) => {
-          console.log("Uploading file:", file.name);
           const url = await uploadFile(file);
           return url;
         })
@@ -58,32 +56,15 @@ function NewAd() {
     if (imagesUrl.length > 0) {
       try {
         setLoading(true);
-        const carsRef = collection(db, "cars");
-        await addDoc(carsRef, {
-          id: Date.now().toString(),
-          title: formData.title,
-          make: formData.make,
-          model: formData.model,
-          city: formData.city,
-          price: formData.price,
-          ac: formData.ac === undefined ? "false" : "true",
-          alloy: formData.alloy === undefined ? "false" : "true",
-          abs: formData.abs === undefined ? "false" : "true",
-          powerSteering:
-            formData.powerSteering === undefined ? "false" : "true",
-          powerWindows: formData.powerWindows === undefined ? "false" : "true",
-          immobilizer: formData.immobilizer === undefined ? "false" : "true",
-          sunRoof: formData.sunRoof === undefined ? "false" : "true",
-          images: imagesUrl,
-          description: formData.description,
-          user: user?.id,
-          color: formData.color,
-          milage: formData.milage,
-        });
-        console.log("Ad created successfully in Firestore!");
+        const { response, error } = await createAd(user, formData, imagesUrl);
+
+        if (error) throw error;
+
+        console.log("Ad created successfully!");
         setFormData({});
         setSelectedFileList([]);
         navigate("/profile");
+
       } catch (error) {
         console.error("Error adding document:", error);
       } finally {
@@ -159,7 +140,7 @@ function NewAd() {
           <div className="mt-5">
             <h3 className="font-semibold text-xl mb-4">Features</h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-              {features.map((feature) => (
+              {features_Defination.map((feature) => (
                 <div key={feature.name} className="flex items-center space-x-2">
                   <Checkbox
                     name={feature.name}

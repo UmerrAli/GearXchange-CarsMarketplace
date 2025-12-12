@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { HiSearch } from "react-icons/hi";
-import { carMakes, cities, prices } from "./../../Shared/formData";
+import { carMakes, cities, prices } from "../Shared/formData";
 
 function Search() {
   return (
