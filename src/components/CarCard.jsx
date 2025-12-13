@@ -15,7 +15,11 @@ function CarCard({ car }) {
         </div>
 
         <div className="p-3">
-          <h3 className="text-xl font-bold text-gray-800 mb-1">{car.title}</h3>
+          <h3 className="text-xl font-bold text-gray-800 mb-1 truncate">{car.title}</h3>
+
+          <p className="text-gray-600">
+            <span className="font-semibold">Make:</span> {car.make}
+          </p>
 
           <p className="text-gray-600">
             <span className="font-semibold">Model:</span> {car.model}

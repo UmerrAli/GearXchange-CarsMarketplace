@@ -46,6 +46,7 @@ const models = [
   "2023",
   "2024",
 ];
+
 const colors = ["Red", "Blue", "Black", "White", "Gray"];
 
 const carDetails = [

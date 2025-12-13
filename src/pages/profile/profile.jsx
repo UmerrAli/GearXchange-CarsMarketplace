@@ -6,6 +6,20 @@ import CarCard from "../../components/CarCard";
 import { useState, useEffect } from "react";
 import { getProfileAds } from "../../db/getProfileAds";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { deleteAd } from "../../db/deleteAd";
+import Footer from "@/components/Footer";
+
 function Profile() {
   const { user } = useAuth();
   const [carsList, setCarsList] = useState([]);
@@ -25,6 +39,18 @@ function Profile() {
     fetchAds();
   }, [user]);
 
+  const handleDelete = async (carId) => {
+    try {
+      const { error } = await deleteAd(carId, user.id);
+      if (error) throw error;
+
+      // Update local state to remove the deleted car
+      setCarsList((prev) => prev.filter((car) => car.id !== carId));
+    } catch (error) {
+      console.error("Error deleting ad: ", error);
+    }
+  };
+
   return (
     <div>
       <Header />
@@ -40,13 +66,36 @@ function Profile() {
             return (
               <div key={car.id || index}>
                 <CarCard car={car} />
-                <Button className="mt-3">Edit</Button>
-                <Button className="ml-3 mt-3">Delete</Button>
+                <Link to={`/new-ad?mode=edit&id=${car.id}`} state={{ car }}>
+                  <Button className="mt-3">Edit</Button>
+                </Link>
+
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button className="ml-3 mt-3" variant="destructive">Delete</Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action cannot be undone. This will permanently delete your car listing
+                        from our servers.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={() => handleDelete(car.id)}>
+                        Continue
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             );
           })}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
