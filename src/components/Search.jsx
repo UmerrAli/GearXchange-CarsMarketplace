@@ -46,7 +46,7 @@ function Search({ onSearch }) {
   };
 
   return (
-    <div className="flex sm:gap-5 items-center gap-10 flex-col md:flex-row p-4 rounded-md md:rounded-full bg-white px-5 w-[70%]">
+    <div className="flex outline outline-[0.1vw] sm:gap-5 items-center gap-4 flex-col md:flex-row p-4 rounded-md md:rounded-full bg-white px-5 w-[70%]">
       <Select onValueChange={(value) => setMake(value)}>
         <SelectTrigger className="outline-none md:border-none w-full shadow-none">
           <SelectValue placeholder="Car Make" />

@@ -27,8 +27,6 @@ function UsedCars() {
           const { data, error } = await searchAds(filters);
           if (error) throw error;
           setCarsList(data || []);
-          // Ideally we also want 'allCars' to be populated for reset purposes, but for now filtered list is fine
-          // Or we could fetch all separately if needed, but let's stick to showing results
           const { data: allData } = await getAds();
           setAllCars(allData || []);
 
@@ -86,7 +84,7 @@ function UsedCars() {
         ) : carsList.length > 0 ? (
           <>
             <p className="text-sm text-gray-600 mb-4">{carsList.length} car(s) found</p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 place-items-center">
               {carsList.map((car) => {
                 return <CarCard car={car} key={car.id} />;
               })}

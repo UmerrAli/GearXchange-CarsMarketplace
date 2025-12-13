@@ -61,7 +61,7 @@ function Profile() {
             <Button>+ Add New</Button>
           </Link>
         </div>
-        <div className="flex flex-wrap gap-10 items-start my-6">
+        <div className="flex flex-wrap gap-6 items-start my-6 justify-center lg:justify-start">
           {carsList.map((car, index) => {
             return (
               <div key={car.id || index}>
@@ -76,7 +76,7 @@ function Profile() {
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                      <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                       <AlertDialogDescription>
                         This action cannot be undone. This will permanently delete your car listing
                         from our servers.
