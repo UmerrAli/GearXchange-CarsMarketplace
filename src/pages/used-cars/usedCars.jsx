@@ -66,9 +66,9 @@ function UsedCars() {
   };
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <div className="px-6 md:px-20 my-10">
+      <div className="px-6 md:px-20 my-10 flex-grow">
         <h2 className="font-bold text-3xl mb-6">Used Cars</h2>
 
         {/* Search Component */}

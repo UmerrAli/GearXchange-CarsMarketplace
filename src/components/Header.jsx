@@ -1,13 +1,12 @@
 import { Button } from "./ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
 import { useAuth } from "../contexts/useAuth";
 import { signOut } from "../../configs/supabase-config";
+import { useNavigate } from "react-router-dom";
 import {
   Sheet,
   SheetContent,
-  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -15,86 +14,101 @@ import {
 import { Menu } from "lucide-react";
 
 function Header() {
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   const handleSignOut = async () => {
     await signOut();
+    navigate("/");
   };
 
-  return (
-    <div className="flex justify-between space-x-2 mt-5 px-7 md:px-10 lg:px-20">
+  const NavItems = () => (
+    <>
       <Link to={"/"}>
-        <Logo />
+        <li className="font-medium text-gray-700 hover:text-primary transition-colors cursor-pointer text-sm md:text-base">
+          Home
+        </li>
       </Link>
-      <ul className="hidden md:flex gap-4 lg:gap-8 mt-2 ">
-        <Link to={"/"}>
-          <li className="font-medium hover:scale-105 transition-all cursor-pointer text-sm md:text-base lg:text-lg">
-            Home
-          </li>
-        </Link>
-        <Separator orientation="vertical" />
-        <Link to={"/used"}>
-          <li className="font-medium hover:scale-105 transition-all cursor-pointer text-sm md:text-base lg:text-lg">
-            Used Cars
-          </li>
-        </Link>
-        <Separator orientation="vertical" />
-        <li className="font-medium hover:scale-105 transition-all cursor-pointer text-sm md:text-base lg:text-lg">
+      <Link to={"/used"}>
+        <li className="font-medium text-gray-700 hover:text-primary transition-colors cursor-pointer text-sm md:text-base">
+          Used Cars
+        </li>
+      </Link>
+      <Link to={"/about-us"}>
+        <li className="font-medium text-gray-700 hover:text-primary transition-colors cursor-pointer text-sm md:text-base">
           About Us
         </li>
-      </ul>
-      {user ? (
-        <div className="flex items-center gap-5">
-          <Link to={"/profile"}>
-            <Button className="hidden md:block">Post an Ad</Button>
-          </Link>
-          <Button variant="outline" onClick={handleSignOut} className="hidden md:flex">
-            Sign Out
-          </Button>
-        </div>
-      ) : (
-        <div className="flex items-center gap-5">
-          <Link to={"/sign-in"}>
-            <Button className="hidden md:block">Post an Ad</Button>
-          </Link>
-        </div>
-      )}
+      </Link>
+    </>
+  );
 
-      {/* Mobile Menu */}
-      <div className="md:hidden flex items-center">
-        <Sheet>
-          <SheetTrigger>
-            <Menu className="h-8 w-8" />
-          </SheetTrigger>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle className="text-left mb-4 font-bold">Menu</SheetTitle>
-              <div className="text-left flex flex-col gap-4 mt-4">
+  return (
+    <div className="sticky top-0 z-50 w-full mb-1">
+      <div className="glass px-6 md:px-14 lg:px-20 py-4 flex justify-between items-center transition-all duration-300">
+        <Link to={"/"} className="flex-shrink-0">
+          <Logo />
+        </Link>
 
-                <Link to={"/"} className="font-medium hover:text-primary">
-                  Home
-                </Link>
-                <Link to={"/used"} className="font-medium hover:text-primary">
-                  Used Cars
-                </Link>
-                <Link to={"#"} className="font-medium hover:text-primary">
-                  About Us
-                </Link>
-                {user && (
-                  <span
-                    className="font-medium hover:text-primary cursor-pointer text-red-500"
-                    onClick={handleSignOut}
-                  >
-                    Sign Out
-                  </span>
-                )}
-                <Link to={user ? "/profile" : "/sign-in"}>
-                  <Button className="w-full">Post an Ad</Button>
-                </Link>
-              </div>
-            </SheetHeader>
-          </SheetContent>
-        </Sheet>
+        {/* Desktop Nav */}
+        <ul className="hidden md:flex gap-8 items-center">
+          <NavItems />
+        </ul>
+
+        {/* Desktop Auth Buttons */}
+        <div className="hidden md:flex items-center gap-4">
+          {user ? (
+            <>
+              <Link to={"/profile"}>
+                <Button className="font-semibold shadow-md active:scale-95 transition-transform" variant="default">Post an Ad</Button>
+              </Link>
+              <Button variant="ghost" onClick={handleSignOut} className="font-medium text-gray-600 hover:bg-gray-100 hover:text-red-500">
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <Link to={"/sign-in"}>
+              <Button className="font-semibold shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all active:scale-95">Post an Ad</Button>
+            </Link>
+          )}
+        </div>
+
+        {/* Mobile Menu */}
+        <div className="md:hidden flex items-center">
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="text-gray-700">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-[300px] sm:w-[350px]">
+              <SheetHeader>
+                <SheetTitle className="text-left mb-6 font-bold text-2xl font-serif">Menu</SheetTitle>
+                <div className="flex flex-col gap-6 text-lg">
+                  <div className="flex flex-col gap-4 list-none">
+                    <NavItems />
+                  </div>
+
+                  <div className="h-px bg-gray-100 my-2" />
+
+                  {user ? (
+                    <div className="flex flex-col gap-3">
+                      <Link to={"/profile"} className="w-full">
+                        <Button className="w-full" size="lg">Post an Ad</Button>
+                      </Link>
+                      <Button variant="outline" onClick={handleSignOut} className="w-full text-red-500 border-red-100 hover:bg-red-50 hover:text-red-600">
+                        Sign Out
+                      </Button>
+                    </div>
+                  ) : (
+                    <Link to={"/sign-in"}>
+                      <Button className="w-full" size="lg">Log In / Sign Up</Button>
+                    </Link>
+                  )}
+                </div>
+              </SheetHeader>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </div>
   );

@@ -5,10 +5,12 @@ import Footer from "../../components/Footer";
 
 function Home() {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <Hero />
-      <FeaturedCars />
+      <main className="flex-grow">
+        <Hero />
+        <FeaturedCars />
+      </main>
       <Footer />
     </div>
   );

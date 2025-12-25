@@ -41,7 +41,7 @@ function FeaturedCars() {
         <CarouselContent>
           {cars.map((car, index) => {
             return (
-              <CarouselItem className="basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 flex justify-center" key={car.id}>
+              <CarouselItem className="basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 flex justify-center m-2" key={car.id}>
                 <CarCard car={car} />
               </CarouselItem>
             );
