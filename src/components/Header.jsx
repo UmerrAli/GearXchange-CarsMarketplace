@@ -1,7 +1,7 @@
 import { Button } from "./ui/button";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
-import { useAuth } from "../contexts/useAuth";
+import { useAuth } from "@/contexts/useAuth";
 import { signOut } from "../../configs/supabase-config";
 import { useNavigate } from "react-router-dom";
 import {

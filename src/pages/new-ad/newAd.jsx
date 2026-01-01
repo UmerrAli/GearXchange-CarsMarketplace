@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import Header from "../../components/Header";
+import Header from "@/components/Header";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "../../components/ui/button";
+import { Button } from "@/components/ui/button";
 import UploadImages from "./components/UploadImages";
 import { Label } from "@/components/ui/label";
-import { features_Defination, carDetails } from "../../Shared/formData";
+import { features_Defination, carDetails } from "@/Shared/formData";
 import {
   Select,
   SelectItem,
@@ -15,10 +15,10 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
-import { createAd } from "../../db/createAd";
-import { uploadFile } from "../../db/uploadFile";
-import { updateAd } from "../../db/updateAd";
-import { useAuth } from "../../contexts/useAuth";
+import { createAd } from "@/db/createAd";
+import { uploadFile } from "@/db/uploadFile";
+import { updateAd } from "@/db/updateAd";
+import { useAuth } from "@/contexts/useAuth";
 
 function NewAd() {
   const [formData, setFormData] = useState({});
@@ -112,14 +112,14 @@ function NewAd() {
 
       if (isEditMode) {
         // Update existing ad
-        const { response, error } = await updateAd(Number(carId), formData, imagesUrl);
+        const { error } = await updateAd(Number(carId), formData, imagesUrl);
         if (error) {
           console.error("Update error:", error);
           throw error;
         }
       } else {
         // Create new ad
-        const { response, error } = await createAd(user, formData, imagesUrl);
+        const { error } = await createAd(user, formData, imagesUrl);
         if (error) throw error;
         console.log("Ad created successfully!");
       }

@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import Header from "../../components/Header";
-import CarCard from "../../components/CarCard";
-import getAds from "../../db/getAds";
-import Footer from "../../components/Footer";
-import SearchComponent from "../../components/Search";
-import { searchAds } from "../../db/searchAd";
+import Header from "@/components/Header";
+import CarCard from "@/components/CarCard";
+import getAds from "@/db/getAds";
+import Footer from "@/components/Footer";
+import SearchComponent from "@/components/Search";
+import { searchAds } from "@/db/searchAd";
 
 function UsedCars() {
   const [carsList, setCarsList] = useState([]);

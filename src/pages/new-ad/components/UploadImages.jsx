@@ -1,4 +1,3 @@
-import React from "react";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
 function UploadImages({ selectedFileList, setSelectedFileList }) {

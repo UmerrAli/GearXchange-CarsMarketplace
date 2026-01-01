@@ -1,10 +1,10 @@
-import Header from "../../components/Header";
-import { Button } from "../../components/ui/button";
+import Header from "@/components/Header";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../contexts/useAuth";
-import CarCard from "../../components/CarCard";
+import { useAuth } from "@/contexts/useAuth";
+import CarCard from "@/components/CarCard";
 import { useState, useEffect } from "react";
-import { getProfileAds } from "../../db/getProfileAds";
+import { getProfileAds } from "@/db/getProfileAds";
 
 import {
   AlertDialog,
@@ -17,7 +17,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { deleteAd } from "../../db/deleteAd";
+import { deleteAd } from "@/db/deleteAd";
 import Footer from "@/components/Footer";
 
 function Profile() {

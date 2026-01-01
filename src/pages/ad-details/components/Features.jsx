@@ -1,5 +1,4 @@
-import { features_Defination } from "../../../Shared/formData";
-import React from "react";
+import { features_Defination } from "@/Shared/formData";
 import { CiCircleCheck } from "react-icons/ci";
 
 function Features({ adDetails }) {

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import Header from "../../../components/Header";
+import Header from "@/components/Header";
 import DetailsHeader from "../components/DetailsHeader";
 import { useParams } from "react-router-dom";
 import Features from "../components/Features";
-import { Button } from "../../../components/ui/button";
-import Footer from "../../../components/Footer";
+import { Button } from "@/components/ui/button";
+import Footer from "@/components/Footer";
 import { Calendar, Car, Fuel, Gauge, MapPin, Palette, Settings } from "lucide-react";
-import getAddDetails from "../../../db/getAddDetails";
+import getAddDetails from "@/db/getAddDetails";
 
 function AdDetails() {
   const { id } = useParams();

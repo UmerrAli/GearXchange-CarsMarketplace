@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import CarCard from "./CarCard";
+import CarCard from "@/components/CarCard";
 import {
   Carousel,
   CarouselContent,
@@ -7,7 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { getFeaturedAds } from "../db/getFeaturedAds";
+import { getFeaturedAds } from "@/db/getFeaturedAds";
 
 function FeaturedCars() {
   const [cars, setCars] = useState([]);

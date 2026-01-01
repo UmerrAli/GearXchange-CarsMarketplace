@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { signIn } from "../../../configs/supabase-config";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useNavigate, Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { supabase } from "../../../configs/supabase-config";

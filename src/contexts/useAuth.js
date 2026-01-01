@@ -5,7 +5,6 @@ import { AuthContext } from "./AuthContext";
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === null) {
-    // Return a default value instead of throwing
     return { user: null, loading: true };
   }
   return context;
