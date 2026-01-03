@@ -6,7 +6,6 @@ function Features({ adDetails }) {
   const availableFeatures = features_Defination
     .filter((featureDef) => features[featureDef.name])
     .map((featureDef) => featureDef.label);
-  console.log(availableFeatures);
 
   return (
     <div>

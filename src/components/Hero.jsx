@@ -1,4 +1,3 @@
-import React from "react";
 import Search from "@/components/Search";
 
 function Hero() {
@@ -23,7 +22,7 @@ function Hero() {
         </h1>
         <p className="mt-4 text-lg leading-8 text-gray-600 mb-10 max-w-xl mx-auto">
           Explore a wide range of cars, from used to new, and make the purchase
-          that's right for you with GearXchange.
+          that&apos;s right for you with GearXchange.
         </p>
 
         <div className="w-full flex justify-center">

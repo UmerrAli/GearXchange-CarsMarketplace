@@ -1,10 +1,9 @@
-import React from "react";
 import Logo from "./Logo";
 import { Separator } from "@/components/ui/separator";
 
 function Footer() {
   return (
-    <div>
+    <div className="mx-4">
       <Separator />
       <footer className="bg-gray-100">
         <div className="relative mx-auto max-w-screen-xl px-4 py-6 sm:px-6 lg:px-8 ">

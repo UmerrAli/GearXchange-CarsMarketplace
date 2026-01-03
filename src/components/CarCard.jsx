@@ -1,9 +1,8 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { Fuel, Gauge } from "lucide-react";
 
 function CarCard({ car }) {
-  const images = JSON.parse(car.images);
+  const images = typeof car.images === 'string' ? JSON.parse(car.images) : (car.images || []);
   const mainImage = images && images.length > 0 ? images[0] : "";
 
   return (
@@ -16,9 +15,6 @@ function CarCard({ car }) {
             alt={car.title}
             className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full text-xs font-semibold text-gray-700 shadow-sm">
-            {car.model || "Used"}
-          </div>
           <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded-lg text-white text-xs font-medium flex items-center gap-1">
             PKR {Number(car.price).toLocaleString()}
           </div>

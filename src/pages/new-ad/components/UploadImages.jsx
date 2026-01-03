@@ -8,7 +8,7 @@ function UploadImages({ selectedFileList, setSelectedFileList }) {
       setSelectedFileList((prev) => [...prev, file]);
     }
   };
-  function onImageRemove(image, index) {
+  function onImageRemove(image) {
     setSelectedFileList(selectedFileList.filter((file) => image !== file));
   }
   return (

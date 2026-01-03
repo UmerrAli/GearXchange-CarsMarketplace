@@ -4,7 +4,7 @@ import AdDetails from "@/pages/ad-details/[id]/adDetails";
 import Home from "@/pages/home-page/home";
 import Contact from "@/pages/about-us/contact";
 import Profile from "@/pages/profile/profile";
-import NewAd from "@/pages/new-ad/newAd";
+import AdUpsert from "@/pages/new-ad/AdUpsert";
 import SignIn from "@/components/auth/SignIn";
 import SignUp from "@/components/auth/SignUp";
 
@@ -22,8 +22,8 @@ export const router = createBrowserRouter([
     element: <Profile />,
   },
   {
-    path: "/new-ad",
-    element: <NewAd />,
+    path: "/ad-upsert",
+    element: <AdUpsert />,
   },
   {
     path: "/used",

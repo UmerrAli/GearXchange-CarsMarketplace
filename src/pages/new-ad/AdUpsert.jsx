@@ -1,133 +1,126 @@
 import { useState, useEffect } from "react";
+import getAddDetails from "@/db/getAddDetails";
 import Header from "@/components/Header";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import UploadImages from "./components/UploadImages";
 import { Label } from "@/components/ui/label";
-import { features_Defination, carDetails } from "@/Shared/formData";
+import { features_Defination, carDetails, carModels } from "@/Shared/formData";
 import {
   Select,
   SelectItem,
   SelectTrigger,
   SelectContent,
   SelectValue,
+  SelectLabel,
+  SelectGroup,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useNavigate, useSearchParams, useLocation } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { createAd } from "@/db/createAd";
 import { uploadFile } from "@/db/uploadFile";
 import { updateAd } from "@/db/updateAd";
 import { useAuth } from "@/contexts/useAuth";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 
-function NewAd() {
+function AdUpsert() {
   const [formData, setFormData] = useState({});
   const [selectedFileList, setSelectedFileList] = useState([]);
+  const [existingImages, setExistingImages] = useState([]);
   const [loading, setLoading] = useState(false);
+  
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { profile } = useAuth();
   const [searchParams] = useSearchParams();
-  const location = useLocation();
 
   const isEditMode = searchParams.get("mode") === "edit";
   const carId = searchParams.get("id");
-  const carData = location.state?.car;
 
   useEffect(() => {
-    if (isEditMode && carData) {
-      // Parse features from JSON string if needed
-      const parsedFeatures = carData.features && typeof carData.features === 'string'
-        ? JSON.parse(carData.features)
-        : carData.features || {};
+    if (!isEditMode || !carId) return;
 
-      // Map database feature names (snake_case) to form feature names (camelCase)
-      const mappedFeatures = {
-        ac: parsedFeatures.ac || false,
-        alloy: parsedFeatures.alloy || false,
-        abs: parsedFeatures.abs || false,
-        powerSteering: parsedFeatures.power_steering || false,
-        powerWindows: parsedFeatures.power_windows || false,
-        immobilizer: parsedFeatures.immobilizer || false,
-        sunRoof: parsedFeatures.sun_roof || false,
-      };
+    const fetchCarData = async () => {
+      try {
+        const { data: carData, error } = await getAddDetails(carId);
 
-      // Pre-populate form with existing car data including mapped features
-      setFormData({
-        title: carData.title || "",
-        make: carData.make || "",
-        model: carData.model || "",
-        city: carData.city || "",
-        price: carData.price || "",
-        color: carData.color || "",
-        milage: carData.mileage || "",
-        description: carData.description || "",
-        ...mappedFeatures
-      });
+        if (error) throw error;
 
-      // Note: Existing images are already in the database, no need to set selectedFileList
-    }
-  }, [isEditMode, carData]);
+        if (carData) {
+          setExistingImages([...new Set(carData.images)]);
+
+          const features = carData.features ? JSON.parse(carData.features) : {};
+
+          setFormData({
+            title: carData.title || "",
+            make: carData.make || "",
+            model: carData.model || "",
+            year: carData.year || "",
+            city: carData.city || "",
+            price: carData.price || "",
+            color: carData.color || "",
+            milage: carData.mileage || "",
+            description: carData.description || "",
+            ...features,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching car data:", error);
+      }
+    };
+
+    fetchCarData();
+  }, [isEditMode, carId]);
 
   const handleInputChange = (name, value) => {
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    setFormData((prev) => {
+      const newData = { ...prev, [name]: value };
+      if (name === "make") {
+        newData.model = "";
+      }
+      return newData;
+    });
   };
 
-  async function uploadUrlsToStorage() {
-    setLoading(true);
+  const handleRemoveExistingImage = (indexToRemove) => {
+    setExistingImages((prev) => prev.filter((_, index) => index !== indexToRemove));
+  };
+
+  const uploadUrlsToStorage = async () => {
     try {
-      const newUrls = await Promise.all(
-        selectedFileList.map(async (file) => {
-          const url = await uploadFile(file);
-          return url;
-        })
-      );
-      return newUrls;
+      return await Promise.all(selectedFileList.map((file) => uploadFile(file)));
     } catch (error) {
       console.error("Error uploading images:", error);
       return [];
-    } finally {
-      setLoading(false);
     }
-  }
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
-      setLoading(true);
+      let imageUrls = [...existingImages];
 
-      let imagesUrl;
-
-      // If editing and no new images selected, use existing images
-      if (isEditMode && selectedFileList.length === 0 && carData?.images) {
-        imagesUrl = carData.images;
-      } else if (selectedFileList.length > 0) {
-        // Upload new images
-        imagesUrl = await uploadUrlsToStorage();
-      } else {
-        console.error("No images provided.");
-        setLoading(false);
-        return;
+      if (selectedFileList.length > 0) {
+        const newUrls = await uploadUrlsToStorage();
+        imageUrls = [...imageUrls, ...newUrls];
       }
 
+      imageUrls = [...new Set(imageUrls)];
+
       if (isEditMode) {
-        // Update existing ad
-        const { error } = await updateAd(Number(carId), formData, imagesUrl);
-        if (error) {
-          console.error("Update error:", error);
-          throw error;
-        }
-      } else {
-        // Create new ad
-        const { error } = await createAd(user, formData, imagesUrl);
+        const { error } = await updateAd(Number(carId), formData, imageUrls, profile);
         if (error) throw error;
-        console.log("Ad created successfully!");
+      } else {
+        const { error } = await createAd(profile, formData, imageUrls);
+        if (error) throw error;
       }
 
       setFormData({});
       setSelectedFileList([]);
+      setExistingImages([]);
       navigate("/profile");
-
     } catch (error) {
       console.error("Error submitting ad:", error);
     } finally {
@@ -136,7 +129,7 @@ function NewAd() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div>
       <Header />
       <div className="px-6 md:px-16 lg:px-32 py-12">
         <h2 className="font-bold text-3xl text-center mb-10">
@@ -160,27 +153,40 @@ function NewAd() {
                       required
                       autoComplete="off"
                       value={formData[detail.name] || ""}
-                      onChange={(e) =>
-                        handleInputChange(detail.name, e.target.value)
-                      }
+                      onChange={(e) => handleInputChange(detail.name, e.target.value)}
                     />
                   ) : (
                     <Select
                       required
                       value={formData[detail.name] || ""}
-                      onValueChange={(value) =>
-                        handleInputChange(detail.name, value)
-                      }
+                      onValueChange={(value) => handleInputChange(detail.name, value)}
+                      disabled={detail.name === "model" && !formData.make}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder={`Select ${detail.label}`} />
                       </SelectTrigger>
                       <SelectContent>
-                        {detail.options.map((option) => (
-                          <SelectItem key={option} value={option}>
-                            {option}
-                          </SelectItem>
-                        ))}
+                        {(detail.name === "model" && formData.make
+                          ? carModels[formData.make] || []
+                          : detail.options
+                        )?.map((option) =>
+                          typeof option === "object" && option.province ? (
+                            <div key={option.province}>
+                              <SelectGroup>
+                                <SelectLabel>{option.province}</SelectLabel>
+                                {option.cities.map((city) => (
+                                  <SelectItem key={city} value={city}>
+                                    {city}
+                                  </SelectItem>
+                                ))}
+                              </SelectGroup>
+                            </div>
+                          ) : (
+                            <SelectItem key={option} value={option}>
+                              {option}
+                            </SelectItem>
+                          )
+                        )}
                       </SelectContent>
                     </Select>
                   )}
@@ -188,6 +194,7 @@ function NewAd() {
               ))}
             </div>
           </div>
+
           <div>
             <label className="block text-sm mb-2">Description</label>
             <Textarea
@@ -206,10 +213,8 @@ function NewAd() {
                   <Checkbox
                     name={feature.name}
                     id={feature.name}
-                    checked={formData[feature.name] || false}
-                    onCheckedChange={(value) =>
-                      handleInputChange(feature.name, value)
-                    }
+                    checked={!!formData[feature.name]}
+                    onCheckedChange={(value) => handleInputChange(feature.name, value)}
                   />
                   <Label htmlFor={feature.name}>{feature.label}</Label>
                 </div>
@@ -220,29 +225,34 @@ function NewAd() {
           {/* Upload Images */}
           <div className="mt-5">
             <h3 className="font-semibold text-xl mb-4">Upload Images</h3>
-            {isEditMode && carData?.images && selectedFileList.length === 0 && (
+            
+            {existingImages.length > 0 && (
               <div className="mb-4">
                 <p className="text-sm text-gray-600 mb-2">Existing images:</p>
-                <div className="flex gap-2 flex-wrap">
-                  {JSON.parse(carData.images).map((img, index) => (
-                    <img
-                      key={index}
-                      src={img}
-                      alt={`Car ${index + 1}`}
-                      className="w-24 h-24 object-cover rounded border"
-                    />
+                <div className="flex gap-4 flex-wrap">
+                  {existingImages.map((imgUrl, index) => (
+                    <div key={index} className="relative flex-shrink-0">
+                      <IoIosCloseCircleOutline
+                        className="absolute -top-2 -right-2 z-10 text-xl text-red-600 cursor-pointer bg-white rounded-full shadow-md hover:scale-110 transition-transform"
+                        onClick={() => handleRemoveExistingImage(index)}
+                      />
+                      <img
+                        src={imgUrl}
+                        alt={`Existing ${index}`}
+                        className="w-[120px] h-[120px] object-cover rounded-xl border border-gray-200"
+                      />
+                    </div>
                   ))}
                 </div>
-                <p className="text-sm text-gray-500 mt-2">Upload new images to replace existing ones</p>
               </div>
             )}
+
             <UploadImages
               selectedFileList={selectedFileList}
               setSelectedFileList={setSelectedFileList}
             />
           </div>
 
-          {/* Submit Button or Loader */}
           <div className="flex justify-center">
             {loading ? (
               <Button disabled className="w-full max-w-xs">
@@ -260,4 +270,4 @@ function NewAd() {
   );
 }
 
-export default NewAd;
+export default AdUpsert;

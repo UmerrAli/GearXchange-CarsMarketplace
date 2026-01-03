@@ -8,7 +8,7 @@ import {
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 function DetailsHeader({ adDetails }) {
-  const images = JSON.parse(adDetails.images);
+  const images = typeof adDetails.images === 'string' ? JSON.parse(adDetails.images) : (adDetails.images || []);
 
   return (
     <div className="relative group">

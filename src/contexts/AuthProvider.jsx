@@ -1,13 +1,12 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../../configs/supabase-config";
-
-// Create Auth Context
-export const AuthContext = createContext(null);
+import { AuthContext } from "./AuthContext";
 
 // Auth Provider Component
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [profile, setProfile] = useState(null);
 
   useEffect(() => {
     // Check if user is already logged in
@@ -15,6 +14,9 @@ export const AuthProvider = ({ children }) => {
       try {
         const { data } = await supabase.auth.getSession();
         setUser(data.session?.user || null);
+        const { data: profile } = await supabase.from("profiles").select("*").eq("user_id", data.session?.user?.id).single();
+        setProfile(profile);
+        console.log(profile);
       } catch (error) {
         console.error("Error checking user:", error);
       } finally {
@@ -37,6 +39,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     user,
     loading,
+    profile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

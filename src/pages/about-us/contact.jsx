@@ -1,7 +1,6 @@
-import React from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Mail, MapPin } from "lucide-react";
+import { Mail, MapPin, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 function Contact() {
@@ -15,7 +14,7 @@ function Contact() {
             About GearXchange
           </h1>
           <p className="text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-            Revolutionizing the way you buy and sell cars. Trusted, transparent, and built for enthusiasts.
+            {"Revolutionizing the way you buy and sell cars. Trusted, transparent, and built for enthusiasts."}
           </p>
         </div>
 
@@ -25,10 +24,10 @@ function Contact() {
             <h2 className="text-3xl font-bold text-gray-900 font-display">Our Mission</h2>
             <div className="prose prose-lg text-gray-600">
               <p>
-                At GearXchange, we believe finding your dream car shouldn't be a hassle. We've built a platform that connects buyers and sellers directly, cutting out the middlemen and ensuring clarity in every transaction.
+                {"At GearXchange, we believe finding your dream car shouldn't be a hassle. We've built a platform that connects buyers and sellers directly, cutting out the middlemen and ensuring clarity in every transaction."}
               </p>
               <p>
-                Whether you're looking for a reliable daily driver or a high-performance machine, our marketplace is designed to help you make informed decisions with detailed listings and transparent pricing.
+                {"Whether you're looking for a reliable daily driver or a high-performance machine, our marketplace is designed to help you make informed decisions with detailed listings and transparent pricing."}
               </p>
             </div>
           </div>

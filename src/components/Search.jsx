@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
+  SelectLabel,  
+  SelectGroup,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { HiSearch } from "react-icons/hi";
-import { carMakes, cities, prices } from "@/Shared/formData";
+import { carMakes, cities, prices, carModels } from "@/Shared/formData";
 
 import { useNavigate } from "react-router-dom";
 
 function Search({ onSearch }) {
   const [make, setMake] = useState("");
+  const [model, setModel] = useState("");
   const [city, setCity] = useState("");
   const [priceRange, setPriceRange] = useState("");
   const navigate = useNavigate();
@@ -23,6 +26,7 @@ function Search({ onSearch }) {
     const filters = {};
 
     if (make) filters.make = make;
+    if (model) filters.model = model;
     if (city) filters.city = city;
 
     // Parse price range (e.g., "5 Lacs" -> maxPrice)
@@ -38,6 +42,7 @@ function Search({ onSearch }) {
       // Otherwise, this is on home page, navigate to used cars page with query params
       const queryParams = new URLSearchParams();
       if (filters.make) queryParams.append("make", filters.make);
+      if (filters.model) queryParams.append("model", filters.model);
       if (filters.city) queryParams.append("city", filters.city);
       if (filters.maxPrice) queryParams.append("maxPrice", filters.maxPrice);
 
@@ -46,8 +51,13 @@ function Search({ onSearch }) {
   };
 
   return (
-    <div className="flex outline outline-[0.1vw] sm:gap-5 items-center gap-4 flex-col md:flex-row p-4 rounded-md md:rounded-full bg-white px-5 w-[70%]">
-      <Select onValueChange={(value) => setMake(value)}>
+    <div className="flex outline outline-[0.1vw] sm:gap-5 items-center gap-4 flex-col md:flex-row p-4 rounded-md md:rounded-full bg-white px-5 w-full">
+      <Select
+        onValueChange={(value) => {
+          setMake(value);
+          setModel("");
+        }}
+      >
         <SelectTrigger className="outline-none md:border-none w-full shadow-none">
           <SelectValue placeholder="Car Make" />
         </SelectTrigger>
@@ -62,15 +72,41 @@ function Search({ onSearch }) {
       <div>
         <Separator orientation="vertical" className="hidden md:block" />
       </div>
+      <Select
+        disabled={!make}
+        onValueChange={(value) => setModel(value)}
+        value={model}
+      >
+        <SelectTrigger className="outline-none md:border-none w-full shadow-none">
+          <SelectValue placeholder="Car Model" />
+        </SelectTrigger>
+        <SelectContent>
+          {carModels[make]?.map((model) => (
+            <SelectItem key={model} value={model}>
+              {model}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+      <div>
+        <Separator orientation="vertical" className="hidden md:block" />
+      </div>
       <Select onValueChange={(value) => setCity(value)}>
         <SelectTrigger className="outline-none md:border-none w-full shadow-none">
           <SelectValue placeholder="City" />
         </SelectTrigger>
         <SelectContent>
-          {cities.map((city) => (
-            <SelectItem key={city} value={city}>
-              {city}
-            </SelectItem>
+          {cities.map((provinceGroup) => (
+            <div key={provinceGroup.province}>
+              <SelectGroup>
+                <SelectLabel>{provinceGroup.province}</SelectLabel>
+              {provinceGroup.cities.map((city) => (
+                <SelectItem key={city} value={city}>
+                  {city}
+                </SelectItem>
+              ))}
+              </SelectGroup>
+            </div>
           ))}
         </SelectContent>
       </Select>

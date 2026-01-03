@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CarCard from "@/components/CarCard";
 import {
   Carousel,
@@ -32,7 +32,7 @@ function FeaturedCars() {
   }, []);
 
   if (loading) return <div className="text-center py-10">Loading featured cars...</div>;
-  if (!cars.length) return null; // Or return a message "No featured cars available"
+  if (!cars.length) return null;
 
   return (
     <div className="mx-4 md:mx-20 lg:mx-32">
@@ -42,7 +42,7 @@ function FeaturedCars() {
           {cars.map((car, index) => {
             return (
               <CarouselItem className="basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 flex justify-center m-2" key={car.id}>
-                <CarCard car={car} />
+                <CarCard car={car} key={index}/>
               </CarouselItem>
             );
           })}

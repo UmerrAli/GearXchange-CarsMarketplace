@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { signIn } from "../../../configs/supabase-config";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -123,7 +123,7 @@ const SignIn = () => {
 
                 <div className="text-center mt-4">
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                        Don't have an account?{" "}
+                        Don&apos;t have an account?{" "}
                         <Link to="/sign-up" className="text-blue-600 hover:underline">
                             Sign up
                         </Link>

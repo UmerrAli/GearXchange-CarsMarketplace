@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { signUp } from "../../../configs/supabase-config";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useNavigate, Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { supabase } from "../../../configs/supabase-config";
+import {toast} from "sonner";
 
 const SignUp = () => {
     const [email, setEmail] = useState("");
@@ -20,11 +21,9 @@ const SignUp = () => {
         try {
             const { user, error } = await signUp(email, password);
             if (error) throw error;
+            toast("Account Created Successfully! Please Sign In");
             if (user) {
-                // Automatically sign in or ask user to check email if confirmation is required
-                // For now, redirect to sign in or home
                 navigate("/sign-in");
-                // You might want to show a success message: "Account created! Please sign in."
             }
         } catch (err) {
             setError(err.message);

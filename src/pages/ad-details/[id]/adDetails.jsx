@@ -5,13 +5,19 @@ import { useParams } from "react-router-dom";
 import Features from "../components/Features";
 import { Button } from "@/components/ui/button";
 import Footer from "@/components/Footer";
-import { Calendar, Car, Fuel, Gauge, MapPin, Palette, Settings } from "lucide-react";
+import { Calendar, Car, Gauge, MapPin, Palette } from "lucide-react";
 import getAddDetails from "@/db/getAddDetails";
+import { useAuth } from "@/contexts/useAuth";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom";
 
 function AdDetails() {
   const { id } = useParams();
   const [adDetails, setAdDetails] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showPhoneNumber, setShowPhoneNumber] = useState(false);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAdDetails = async () => {
@@ -89,9 +95,26 @@ function AdDetails() {
                 </div>
 
                 {/* Action Button */}
-                <Button className="w-full text-lg py-8 rounded-2xl shadow-xl shadow-primary/25 bg-primary hover:bg-primary/90 transition-all transform hover:-translate-y-1 active:translate-y-0 font-bold tracking-wide mt-4">
-                  Call Seller
-                </Button>
+                {!showPhoneNumber ? (
+                  <Button
+                    onClick={() => {
+                      if (!user) {
+                        toast.error("You must be logged in to contact the seller.");
+                        // Optional: Navigate to login
+                        // navigate("/auth/sign-in");
+                      } else {
+                        setShowPhoneNumber(true);
+                      }
+                    }}
+                    className="w-full text-lg py-8 rounded-2xl shadow-xl shadow-primary/25 bg-primary hover:bg-primary/90 transition-all transform hover:-translate-y-1 active:translate-y-0 font-bold tracking-wide mt-4"
+                  >
+                    Call Seller
+                  </Button>
+                ) : (
+                  <div className="w-full text-lg py-6 rounded-2xl border-2 border-primary bg-primary/5 text-primary text-center font-bold tracking-wide mt-4">
+                    {adDetails.phone || "No phone number available"}
+                  </div>
+                )}
               </div>
             </div>
 
