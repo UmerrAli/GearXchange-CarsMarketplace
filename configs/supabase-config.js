@@ -3,17 +3,17 @@ import { createClient } from "@supabase/supabase-js";
 // Create Supabase client
 const supabase = createClient(
   import.meta.env.VITE_SUPABASE_URL,
-  import.meta.env.VITE_SUPABASE_KEY
+  import.meta.env.VITE_SUPABASE_KEY,
 );
 
 // ==================== AUTHENTICATION ====================
 
 export const signUp = async (email, password) => {
-  const { data, error } = await supabase.auth.signUp({
+  const { data } = await supabase.auth.signUp({
     email,
     password,
   });
-  const { data: profile, error: profileError } = await supabase.from("profiles").insert({
+  const { data: profile } = await supabase.from("profiles").insert({
     user_id: data.user.id,
     email: email,
   });
@@ -45,6 +45,5 @@ export const onAuthStateChange = (callback) => {
   });
   return data.subscription.unsubscribe;
 };
-
 
 export { supabase };

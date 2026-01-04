@@ -4,13 +4,12 @@ GearXchange is a modern web application designed solely for buying and selling u
 
 ## 🚀 Features
 
--   **Browse & Search:** Easily search for cars by make, city, price range, and more.
--   **Detailed Listings:** View comprehensive details for each car, including specifications, features, and high-quality images.
--   **User Authentication:** Secure sign-up and login functionality powered by Supabase.
--   **Ad Management:** Users can post new ads with images and manage their listings via their profile.
--   **Responsive Design:** Fully responsive interface built with Tailwind CSS, ensuring a great experience on both desktop and mobile devices.
--   **Modern UI:** A polished user interface using Shadcn UI components.
-
+- **Browse & Search:** Easily search for cars by make, city, price range, and more.
+- **Detailed Listings:** View comprehensive details for each car, including specifications, features, and high-quality images.
+- **User Authentication:** Secure sign-up and login functionality powered by Supabase.
+- **Ad Management:** Users can post new ads with images and manage their listings via their profile.
+- **Responsive Design:** Fully responsive interface built with Tailwind CSS, ensuring a great experience on both desktop and mobile devices.
+- **Modern UI:** A polished user interface using Shadcn UI components.
 
 ## 🌐 Live Demo
 
@@ -18,11 +17,11 @@ Check out the live application here: [Live Site Link](https://gear-xchange-cars-
 
 ## 🛠️ Tech Stack
 
--   **Frontend:** [React](https://reactjs.org/) (Vite)
--   **Styling:** [Tailwind CSS](https://tailwindcss.com/)
--   **UI Components:** [Shadcn UI](https://ui.shadcn.com/) / Radix UI
--   **Routing:** [React Router DOM](https://reactrouter.com/)
--   **Backend / Database:** [Supabase](https://supabase.com/) (Auth, Database, Storage)
+- **Frontend:** [React](https://reactjs.org/) (Vite)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components:** [Shadcn UI](https://ui.shadcn.com/) / Radix UI
+- **Routing:** [React Router DOM](https://reactrouter.com/)
+- **Backend / Database:** [Supabase](https://supabase.com/) (Auth, Database, Storage)
 
 ## 💻 How to Run Locally
 
@@ -30,8 +29,8 @@ Follow these steps to set up the project locally on your machine.
 
 ### Prerequisites
 
--   Node.js
--   npm or yarn
+- Node.js
+- npm or yarn
 
 ### Installation
 

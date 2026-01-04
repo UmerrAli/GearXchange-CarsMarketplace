@@ -1,26 +1,26 @@
 import { supabase } from "../../configs/supabase-config";
 async function uploadFile(file) {
-    const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
-    const { data, error } = await supabase.storage
-        .from("carImages")
-        .upload(fileName, file);
+  const fileName = `${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.-]/g, "_")}`;
+  const { error } = await supabase.storage
+    .from("carImages")
+    .upload(fileName, file);
 
-    if (error) {
-        console.error("File upload error:", error);
-        return null;
-    }
+  if (error) {
+    console.error("File upload error:", error);
+    return null;
+  }
 
-    // Retrieve the public URL of the uploaded file
-    const { data: publicUrlData, error: urlError } = supabase.storage
-        .from("carImages")
-        .getPublicUrl(fileName);
+  // Retrieve the public URL of the uploaded file
+  const { data: publicUrlData, error: urlError } = supabase.storage
+    .from("carImages")
+    .getPublicUrl(fileName);
 
-    if (urlError) {
-        console.error("Error retrieving public URL:", urlError);
-        return null;
-    }
+  if (urlError) {
+    console.error("Error retrieving public URL:", urlError);
+    return null;
+  }
 
-    return publicUrlData.publicUrl;
+  return publicUrlData.publicUrl;
 }
 
 export { uploadFile };

@@ -15,5 +15,5 @@ createRoot(document.getElementById("root")).render(
         <Toaster />
       </AuthProvider>
     </ThemeProvider>
-  </StrictMode>
+  </StrictMode>,
 );

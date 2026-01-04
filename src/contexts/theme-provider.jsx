@@ -1,27 +1,20 @@
-import { createContext, useContext, useEffect, useState } from "react"
-import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { createContext, useContext } from "react";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
 
 const ThemeProviderContext = createContext({
   theme: "system",
   setTheme: () => null,
-})
+});
 
-export function ThemeProvider({
-  children,
-  ...props
-}) {
-  return (
-    <NextThemesProvider {...props}>
-      {children}
-    </NextThemesProvider>
-  )
+export function ThemeProvider({ children, ...props }) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
 }
 
 export const useTheme = () => {
-  const context = useContext(ThemeProviderContext)
+  const context = useContext(ThemeProviderContext);
 
   if (context === undefined)
-    throw new Error("useTheme must be used within a ThemeProvider")
+    throw new Error("useTheme must be used within a ThemeProvider");
 
-  return context
-}
+  return context;
+};

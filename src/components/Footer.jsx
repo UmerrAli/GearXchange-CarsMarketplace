@@ -5,7 +5,7 @@ function Footer() {
   return (
     <div className="mx-4">
       <Separator />
-      <footer className="bg-secondary/30 text-secondary-foreground mt-10 rounded-2xl">
+      <footer className="mt-10 rounded-2xl bg-secondary/30 text-secondary-foreground">
         <div className="relative mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
           <div className="lg:flex lg:items-end lg:justify-between">
             <div>
@@ -18,7 +18,8 @@ function Footer() {
           </div>
 
           <p className="mt-8 text-center text-sm text-muted-foreground lg:text-right">
-            Copyright &copy; {new Date().getFullYear()} GearXchange. All rights reserved.
+            Copyright &copy; {new Date().getFullYear()} GearXchange. All rights
+            reserved.
           </p>
         </div>
       </footer>

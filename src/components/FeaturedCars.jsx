@@ -31,18 +31,22 @@ function FeaturedCars() {
     fetchFeatured();
   }, []);
 
-  if (loading) return <div className="text-center py-10">Loading featured cars...</div>;
+  if (loading)
+    return <div className="py-10 text-center">Loading featured cars...</div>;
   if (!cars.length) return null;
 
   return (
     <div className="mx-4 md:mx-20 lg:mx-32">
-      <h2 className="font-bold text-3xl text-center my-10">Featured Cars</h2>
+      <h2 className="my-10 text-center text-3xl font-bold">Featured Cars</h2>
       <Carousel>
         <CarouselContent>
           {cars.map((car, index) => {
             return (
-              <CarouselItem className="basis-full md:basis-1/2 lg:basis-1/3 xl:basis-1/4 flex justify-center m-2" key={car.id}>
-                <CarCard car={car} key={index}/>
+              <CarouselItem
+                className="m-2 flex basis-full justify-center md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+                key={car.id}
+              >
+                <CarCard car={car} key={index} />
               </CarouselItem>
             );
           })}

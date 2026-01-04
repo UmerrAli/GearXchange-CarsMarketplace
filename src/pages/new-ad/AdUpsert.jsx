@@ -29,7 +29,7 @@ function AdUpsert() {
   const [selectedFileList, setSelectedFileList] = useState([]);
   const [existingImages, setExistingImages] = useState([]);
   const [loading, setLoading] = useState(false);
-  
+
   const navigate = useNavigate();
   const { profile } = useAuth();
   const [searchParams] = useSearchParams();
@@ -83,12 +83,16 @@ function AdUpsert() {
   };
 
   const handleRemoveExistingImage = (indexToRemove) => {
-    setExistingImages((prev) => prev.filter((_, index) => index !== indexToRemove));
+    setExistingImages((prev) =>
+      prev.filter((_, index) => index !== indexToRemove),
+    );
   };
 
   const uploadUrlsToStorage = async () => {
     try {
-      return await Promise.all(selectedFileList.map((file) => uploadFile(file)));
+      return await Promise.all(
+        selectedFileList.map((file) => uploadFile(file)),
+      );
     } catch (error) {
       console.error("Error uploading images:", error);
       return [];
@@ -110,7 +114,12 @@ function AdUpsert() {
       imageUrls = [...new Set(imageUrls)];
 
       if (isEditMode) {
-        const { error } = await updateAd(Number(carId), formData, imageUrls, profile);
+        const { error } = await updateAd(
+          Number(carId),
+          formData,
+          imageUrls,
+          profile,
+        );
         if (error) throw error;
       } else {
         const { error } = await createAd(profile, formData, imageUrls);
@@ -131,24 +140,26 @@ function AdUpsert() {
   return (
     <div>
       <Header />
-      <div className="px-4 py-8 md:px-16 lg:px-32 md:py-12 bg-background transition-colors duration-300">
-        <h2 className="font-bold text-3xl md:text-4xl text-center mb-8 md:mb-10 text-foreground">
+      <div className="bg-background px-4 py-8 transition-colors duration-300 md:px-16 md:py-12 lg:px-32">
+        <h2 className="mb-8 text-center text-3xl font-bold text-foreground md:mb-10 md:text-4xl">
           {isEditMode ? "Edit Your Ad" : "Create a New Ad"}
         </h2>
         <form
-          className="bg-card text-card-foreground shadow-2xl rounded-3xl p-6 md:p-12 border border-border grid gap-8 md:gap-10"
+          className="grid gap-8 rounded-3xl border border-border bg-card p-6 text-card-foreground shadow-2xl md:gap-10 md:p-12"
           onSubmit={onSubmit}
         >
           {/* Car Details */}
           <div>
-            <h3 className="font-bold text-2xl mb-6 text-foreground border-b border-border pb-2 inline-flex items-center gap-2">
-              <span className="w-1 h-6 bg-primary rounded-full" />
+            <h3 className="mb-6 inline-flex items-center gap-2 border-b border-border pb-2 text-2xl font-bold text-foreground">
+              <span className="h-6 w-1 rounded-full bg-primary" />
               Car Details
             </h3>
             <div className="grid gap-6 sm:grid-cols-2">
               {carDetails.map((detail) => (
                 <div key={detail.name} className="space-y-2">
-                  <label className="text-sm font-semibold tracking-wide text-muted-foreground uppercase opacity-80">{detail.label}</label>
+                  <label className="text-sm font-semibold uppercase tracking-wide text-muted-foreground opacity-80">
+                    {detail.label}
+                  </label>
                   {!detail.isDropdown && detail.type !== "dropdown" ? (
                     <Input
                       name={detail.name}
@@ -157,13 +168,17 @@ function AdUpsert() {
                       autoComplete="off"
                       className="bg-background/50"
                       value={formData[detail.name] || ""}
-                      onChange={(e) => handleInputChange(detail.name, e.target.value)}
+                      onChange={(e) =>
+                        handleInputChange(detail.name, e.target.value)
+                      }
                     />
                   ) : (
                     <Select
                       required
                       value={formData[detail.name] || ""}
-                      onValueChange={(value) => handleInputChange(detail.name, value)}
+                      onValueChange={(value) =>
+                        handleInputChange(detail.name, value)
+                      }
                       disabled={detail.name === "model" && !formData.make}
                     >
                       <SelectTrigger className="bg-background/50">
@@ -177,7 +192,9 @@ function AdUpsert() {
                           typeof option === "object" && option.province ? (
                             <div key={option.province}>
                               <SelectGroup>
-                                <SelectLabel className="font-bold text-primary">{option.province}</SelectLabel>
+                                <SelectLabel className="font-bold text-primary">
+                                  {option.province}
+                                </SelectLabel>
                                 {option.cities.map((city) => (
                                   <SelectItem key={city} value={city}>
                                     {city}
@@ -189,7 +206,7 @@ function AdUpsert() {
                             <SelectItem key={option} value={option}>
                               {option}
                             </SelectItem>
-                          )
+                          ),
                         )}
                       </SelectContent>
                     </Select>
@@ -200,10 +217,12 @@ function AdUpsert() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-semibold tracking-wide text-muted-foreground uppercase opacity-80">Description</label>
+            <label className="text-sm font-semibold uppercase tracking-wide text-muted-foreground opacity-80">
+              Description
+            </label>
             <Textarea
               name="description"
-              className="bg-background/50 min-h-[150px] rounded-xl focus:ring-primary/20"
+              className="min-h-[150px] rounded-xl bg-background/50 focus:ring-primary/20"
               value={formData.description || ""}
               onChange={(e) => handleInputChange("description", e.target.value)}
               placeholder="Tell us something about your car..."
@@ -211,22 +230,32 @@ function AdUpsert() {
           </div>
 
           {/* Features */}
-          <div className="mt-5 p-6 bg-muted/30 rounded-2xl border border-border/50">
-            <h3 className="font-bold text-2xl mb-6 text-foreground inline-flex items-center gap-2">
-              <span className="w-1 h-6 bg-primary rounded-full" />
+          <div className="mt-5 rounded-2xl border border-border/50 bg-muted/30 p-6">
+            <h3 className="mb-6 inline-flex items-center gap-2 text-2xl font-bold text-foreground">
+              <span className="h-6 w-1 rounded-full bg-primary" />
               Features
             </h3>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
               {features_Defination.map((feature) => (
-                <div key={feature.name} className="flex items-center space-x-3 group">
+                <div
+                  key={feature.name}
+                  className="group flex items-center space-x-3"
+                >
                   <Checkbox
                     name={feature.name}
                     id={feature.name}
-                    className="w-5 h-5 rounded-md border-muted-foreground/30 data-[state=checked]:bg-primary"
+                    className="h-5 w-5 rounded-md border-muted-foreground/30 data-[state=checked]:bg-primary"
                     checked={!!formData[feature.name]}
-                    onCheckedChange={(value) => handleInputChange(feature.name, value)}
+                    onCheckedChange={(value) =>
+                      handleInputChange(feature.name, value)
+                    }
                   />
-                  <Label htmlFor={feature.name} className="text-sm font-medium cursor-pointer group-hover:text-primary transition-colors">{feature.label}</Label>
+                  <Label
+                    htmlFor={feature.name}
+                    className="cursor-pointer text-sm font-medium transition-colors group-hover:text-primary"
+                  >
+                    {feature.label}
+                  </Label>
                 </div>
               ))}
             </div>
@@ -234,27 +263,29 @@ function AdUpsert() {
 
           {/* Upload Images */}
           <div className="mt-5">
-            <h3 className="font-bold text-2xl mb-6 text-foreground inline-flex items-center gap-2">
-              <span className="w-1 h-6 bg-primary rounded-full" />
+            <h3 className="mb-6 inline-flex items-center gap-2 text-2xl font-bold text-foreground">
+              <span className="h-6 w-1 rounded-full bg-primary" />
               Upload Images
             </h3>
-            
+
             {existingImages.length > 0 && (
-              <div className="mb-8 p-4 bg-muted/20 rounded-2xl border border-border/40">
-                <p className="text-sm font-medium text-muted-foreground mb-4">Existing images:</p>
-                <div className="flex gap-6 flex-wrap">
+              <div className="mb-8 rounded-2xl border border-border/40 bg-muted/20 p-4">
+                <p className="mb-4 text-sm font-medium text-muted-foreground">
+                  Existing images:
+                </p>
+                <div className="flex flex-wrap gap-6">
                   {existingImages.map((imgUrl, index) => (
-                    <div key={index} className="relative group">
-                      <div className="absolute -top-3 -right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div key={index} className="group relative">
+                      <div className="absolute -right-3 -top-3 z-10 opacity-0 transition-opacity group-hover:opacity-100">
                         <IoIosCloseCircleOutline
-                          className="text-2xl text-red-600 cursor-pointer bg-background rounded-full shadow-lg hover:scale-110 transition-transform"
+                          className="cursor-pointer rounded-full bg-background text-2xl text-red-600 shadow-lg transition-transform hover:scale-110"
                           onClick={() => handleRemoveExistingImage(index)}
                         />
                       </div>
                       <img
                         src={imgUrl}
                         alt={`Existing ${index}`}
-                        className="w-[140px] h-[140px] object-cover rounded-2xl border border-border/50 shadow-sm"
+                        className="h-[140px] w-[140px] rounded-2xl border border-border/50 object-cover shadow-sm"
                       />
                     </div>
                   ))}
@@ -268,13 +299,21 @@ function AdUpsert() {
             />
           </div>
 
-          <div className="flex justify-center pt-6 border-t border-border mt-6">
+          <div className="mt-6 flex justify-center border-t border-border pt-6">
             {loading ? (
-              <Button disabled className="w-full max-w-md py-6 text-lg rounded-2xl shadow-xl">
-                <span className="animate-pulse">{isEditMode ? "Updating..." : "Submitting..."}</span>
+              <Button
+                disabled
+                className="w-full max-w-md rounded-2xl py-6 text-lg shadow-xl"
+              >
+                <span className="animate-pulse">
+                  {isEditMode ? "Updating..." : "Submitting..."}
+                </span>
               </Button>
             ) : (
-              <Button type="submit" className="w-full max-w-md py-6 text-lg rounded-2xl shadow-xl shadow-primary/20 hover:shadow-primary/40 active:scale-95 transition-all">
+              <Button
+                type="submit"
+                className="w-full max-w-md rounded-2xl py-6 text-lg shadow-xl shadow-primary/20 transition-all hover:shadow-primary/40 active:scale-95"
+              >
                 {isEditMode ? "Update Ad" : "Submit Listing"}
               </Button>
             )}

@@ -9,7 +9,6 @@ import { Calendar, Car, Gauge, MapPin, Palette } from "lucide-react";
 import getAddDetails from "@/db/getAddDetails";
 import { useAuth } from "@/contexts/useAuth";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
 
 function AdDetails() {
   const { id } = useParams();
@@ -17,7 +16,6 @@ function AdDetails() {
   const [loading, setLoading] = useState(true);
   const [showPhoneNumber, setShowPhoneNumber] = useState(false);
   const { user } = useAuth();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAdDetails = async () => {
@@ -37,53 +35,56 @@ function AdDetails() {
   }, [id]);
 
   return (
-    <div className="bg-background text-foreground min-h-screen flex flex-col transition-colors duration-300">
+    <div className="flex min-h-screen flex-col bg-background text-foreground transition-colors duration-300">
       <Header />
 
-      <main className="flex-grow px-4 sm:px-8 lg:px-12 py-10">
+      <main className="flex-grow px-4 py-10 sm:px-8 lg:px-12">
         {loading ? (
-          <div className="flex justify-center items-center h-[60vh]">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          <div className="flex h-[60vh] items-center justify-center">
+            <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-t-2 border-primary"></div>
           </div>
         ) : adDetails ? (
-          <div className="flex flex-col gap-10 max-w-7xl mx-auto w-full">
+          <div className="mx-auto flex w-full max-w-7xl flex-col gap-10">
             {/* Main Content Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-
+            <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-16">
               {/* Left Column: Image Gallery */}
-              <div className="w-full sticky top-24">
-                <div className="bg-card rounded-3xl shadow-xl border border-border p-2 overflow-hidden hover:shadow-2xl transition-all duration-300">
+              <div className="sticky top-24 w-full">
+                <div className="overflow-hidden rounded-3xl border border-border bg-card p-2 shadow-xl transition-all duration-300 hover:shadow-2xl">
                   <DetailsHeader adDetails={adDetails} />
                 </div>
               </div>
 
               {/* Right Column: Key Details & Call to Action */}
               <div className="flex flex-col gap-8">
-
                 {/* Header Section */}
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span>
-                    </span>
-                    <div className="flex items-center text-muted-foreground text-sm font-semibold bg-muted/50 px-4 py-1.5 rounded-full border border-border">
-                      <MapPin className="w-4 h-4 mr-2 text-primary" />
+                    <span></span>
+                    <div className="flex items-center rounded-full border border-border bg-muted/50 px-4 py-1.5 text-sm font-semibold text-muted-foreground">
+                      <MapPin className="mr-2 h-4 w-4 text-primary" />
                       {adDetails.city || "Pakistan"}
                     </div>
                   </div>
-                  <h1 className="text-3xl sm:text-5xl font-extrabold text-foreground tracking-tight leading-tight font-display mb-2">
+                  <h1 className="font-display mb-2 text-3xl font-extrabold leading-tight tracking-tight text-foreground sm:text-5xl">
                     {adDetails.title}
                   </h1>
-                  <p className="text-sm text-muted-foreground font-medium flex items-center gap-2">
-                    <Calendar className="w-4 h-4" />
-                    Posted on {new Date(adDetails.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}
+                  <p className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+                    <Calendar className="h-4 w-4" />
+                    Posted on{" "}
+                    {new Date(adDetails.created_at).toLocaleDateString(
+                      undefined,
+                      { year: "numeric", month: "long", day: "numeric" },
+                    )}
                   </p>
                 </div>
 
                 {/* Price Section */}
-                <div className="flex items-center justify-between py-6 border-y border-border">
+                <div className="flex items-center justify-between border-y border-border py-6">
                   <div className="flex flex-col">
-                    <span className="text-sm font-bold text-primary uppercase tracking-wider">Asking Price</span>
-                    <span className="text-4xl sm:text-5xl font-black tracking-tight text-foreground">
+                    <span className="text-sm font-bold uppercase tracking-wider text-primary">
+                      Asking Price
+                    </span>
+                    <span className="text-4xl font-black tracking-tight text-foreground sm:text-5xl">
                       Rs {Number(adDetails.price).toLocaleString()}
                     </span>
                   </div>
@@ -92,9 +93,21 @@ function AdDetails() {
                 {/* Quick Specs Grid */}
                 <div className="grid grid-cols-2 gap-4">
                   <InfoItem icon={Car} label="Make" value={adDetails.make} />
-                  <InfoItem icon={Calendar} label="Model" value={adDetails.model} />
-                  <InfoItem icon={Palette} label="Color" value={adDetails.color} />
-                  <InfoItem icon={Gauge} label="Mileage" value={`${Number(adDetails.mileage).toLocaleString()} km`} />
+                  <InfoItem
+                    icon={Calendar}
+                    label="Model"
+                    value={adDetails.model}
+                  />
+                  <InfoItem
+                    icon={Palette}
+                    label="Color"
+                    value={adDetails.color}
+                  />
+                  <InfoItem
+                    icon={Gauge}
+                    label="Mileage"
+                    value={`${Number(adDetails.mileage).toLocaleString()} km`}
+                  />
                 </div>
 
                 {/* Action Button */}
@@ -102,17 +115,19 @@ function AdDetails() {
                   <Button
                     onClick={() => {
                       if (!user) {
-                        toast.error("You must be logged in to contact the seller.");
+                        toast.error(
+                          "You must be logged in to contact the seller.",
+                        );
                       } else {
                         setShowPhoneNumber(true);
                       }
                     }}
-                    className="w-full text-xl py-8 rounded-2xl shadow-xl shadow-primary/30 bg-primary hover:bg-primary/90 transition-all transform hover:-translate-y-1 active:scale-95 font-bold tracking-wide mt-4"
+                    className="mt-4 w-full transform rounded-2xl bg-primary py-8 text-xl font-bold tracking-wide shadow-xl shadow-primary/30 transition-all hover:-translate-y-1 hover:bg-primary/90 active:scale-95"
                   >
                     Reveal Seller Phone Number
                   </Button>
                 ) : (
-                  <div className="w-full text-xl py-6 rounded-2xl border-2 border-primary bg-primary/10 text-primary text-center font-black tracking-widest mt-4 shadow-inner animate-in zoom-in-95 duration-300">
+                  <div className="mt-4 w-full rounded-2xl border-2 border-primary bg-primary/10 py-6 text-center text-xl font-black tracking-widest text-primary shadow-inner duration-300 animate-in zoom-in-95">
                     {adDetails.phone || "No phone number available"}
                   </div>
                 )}
@@ -120,23 +135,22 @@ function AdDetails() {
             </div>
 
             {/* Detailed Info Section */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4">
-
+            <div className="mt-4 grid grid-cols-1 gap-8 lg:grid-cols-3">
               {/* Description */}
-              <div className="lg:col-span-2 bg-card rounded-3xl p-8 md:p-10 shadow-xl border border-border h-fit">
-                <h2 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3 font-display border-b border-border pb-4 w-full">
-                  <span className="w-1.5 h-8 bg-primary rounded-full" />
+              <div className="h-fit rounded-3xl border border-border bg-card p-8 shadow-xl md:p-10 lg:col-span-2">
+                <h2 className="font-display mb-8 flex w-full items-center gap-3 border-b border-border pb-4 text-2xl font-bold text-foreground">
+                  <span className="h-8 w-1.5 rounded-full bg-primary" />
                   Vehicle Description
                 </h2>
-                <div className="prose prose-slate dark:prose-invert text-muted-foreground leading-relaxed whitespace-pre-line max-w-none text-lg">
+                <div className="prose prose-slate dark:prose-invert max-w-none whitespace-pre-line text-lg leading-relaxed text-muted-foreground">
                   {adDetails.description}
                 </div>
               </div>
 
               {/* Features */}
-              <div className="lg:col-span-1 bg-card rounded-3xl p-8 shadow-xl border border-border h-fit">
-                <h2 className="text-2xl font-bold text-foreground mb-8 flex items-center gap-3 font-display border-b border-border pb-4 w-full">
-                  <span className="w-1.5 h-8 bg-primary rounded-full" />
+              <div className="h-fit rounded-3xl border border-border bg-card p-8 shadow-xl lg:col-span-1">
+                <h2 className="font-display mb-8 flex w-full items-center gap-3 border-b border-border pb-4 text-2xl font-bold text-foreground">
+                  <span className="h-8 w-1.5 rounded-full bg-primary" />
                   Key Features
                 </h2>
                 <Features adDetails={adDetails} />
@@ -144,10 +158,20 @@ function AdDetails() {
             </div>
           </div>
         ) : (
-          <div className="text-center py-32 bg-card rounded-3xl border border-border shadow-2xl max-w-3xl mx-auto">
-            <h3 className="text-4xl font-extrabold text-foreground mb-4 tracking-tight">Listing Not Found</h3>
-            <p className="text-muted-foreground mb-10 text-lg">The car listing you are looking for might have been sold or removed.</p>
-            <Button variant="default" size="lg" className="px-10 py-6 rounded-xl" onClick={() => window.history.back()}>
+          <div className="mx-auto max-w-3xl rounded-3xl border border-border bg-card py-32 text-center shadow-2xl">
+            <h3 className="mb-4 text-4xl font-extrabold tracking-tight text-foreground">
+              Listing Not Found
+            </h3>
+            <p className="mb-10 text-lg text-muted-foreground">
+              The car listing you are looking for might have been sold or
+              removed.
+            </p>
+            <Button
+              variant="default"
+              size="lg"
+              className="rounded-xl px-10 py-6"
+              onClick={() => window.history.back()}
+            >
               Return to Search
             </Button>
           </div>
@@ -163,13 +187,17 @@ export default AdDetails;
 function InfoItem({ icon: Icon, label, value }) {
   if (!value) return null;
   return (
-    <div className="flex items-center gap-4 p-4 rounded-2xl bg-muted/30 border border-border/50 hover:bg-muted/50 transition-all duration-300 group">
-      <div className="p-3 bg-primary/10 rounded-xl text-primary group-hover:scale-110 transition-transform">
-        <Icon className="w-6 h-6" />
+    <div className="group flex items-center gap-4 rounded-2xl border border-border/50 bg-muted/30 p-4 transition-all duration-300 hover:bg-muted/50">
+      <div className="rounded-xl bg-primary/10 p-3 text-primary transition-transform group-hover:scale-110">
+        <Icon className="h-6 w-6" />
       </div>
       <div className="flex flex-col">
-        <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest mb-0.5 opacity-60">{label}</span>
-        <span className="font-bold text-foreground text-base tracking-tight">{value}</span>
+        <span className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground opacity-60">
+          {label}
+        </span>
+        <span className="text-base font-bold tracking-tight text-foreground">
+          {value}
+        </span>
       </div>
     </div>
   );

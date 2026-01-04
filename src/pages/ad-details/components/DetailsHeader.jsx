@@ -8,43 +8,46 @@ import {
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 function DetailsHeader({ adDetails }) {
-  const images = typeof adDetails.images === 'string' ? JSON.parse(adDetails.images) : (adDetails.images || []);
+  const images =
+    typeof adDetails.images === "string"
+      ? JSON.parse(adDetails.images)
+      : adDetails.images || [];
 
   return (
-    <div className="relative group">
+    <div className="group relative">
       <Carousel className="w-full">
         <CarouselContent>
           {images.map((image, index) => (
             <CarouselItem
               key={index}
-              className="flex justify-center items-center"
+              className="flex items-center justify-center"
             >
               <Dialog>
                 <DialogTrigger asChild>
-                  <div className="relative w-full aspect-video bg-muted rounded-2xl overflow-hidden cursor-zoom-in flex items-center justify-center">
+                  <div className="relative flex aspect-video w-full cursor-zoom-in items-center justify-center overflow-hidden rounded-2xl bg-muted">
                     <img
                       src={image}
                       alt={`Image ${index + 1}`}
-                      className="object-contain w-full h-full hover:scale-110 transition-transform duration-700 ease-out"
+                      className="h-full w-full object-contain transition-transform duration-700 ease-out hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none" />
+                    <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
                   </div>
                 </DialogTrigger>
-                <DialogContent className="max-w-[95vw] max-h-[95vh] w-full h-full border-none bg-background/95 backdrop-blur-xl shadow-none p-0 flex items-center justify-center rounded-3xl overflow-hidden">
+                <DialogContent className="flex h-full max-h-[95vh] w-full max-w-[95vw] items-center justify-center overflow-hidden rounded-3xl border-none bg-background/95 p-0 shadow-none backdrop-blur-xl">
                   <img
                     src={image}
                     alt={`Full view ${index + 1}`}
-                    className="max-w-full max-h-full object-contain shadow-2xl"
+                    className="max-h-full max-w-full object-contain shadow-2xl"
                   />
                 </DialogContent>
               </Dialog>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-6 bg-background/80 hover:bg-background text-foreground border-border shadow-xl backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all" />
-        <CarouselNext className="right-6 bg-background/80 hover:bg-background text-foreground border-border shadow-xl backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all" />
+        <CarouselPrevious className="left-6 border-border bg-background/80 text-foreground opacity-0 shadow-xl backdrop-blur-sm transition-all hover:bg-background group-hover:opacity-100" />
+        <CarouselNext className="right-6 border-border bg-background/80 text-foreground opacity-0 shadow-xl backdrop-blur-sm transition-all hover:bg-background group-hover:opacity-100" />
       </Carousel>
-      <div className="absolute bottom-6 right-6 bg-background/90 text-foreground text-xs font-bold px-4 py-2 rounded-full border border-border shadow-lg backdrop-blur-md pointer-events-none tracking-widest uppercase">
+      <div className="pointer-events-none absolute bottom-6 right-6 rounded-full border border-border bg-background/90 px-4 py-2 text-xs font-bold uppercase tracking-widest text-foreground shadow-lg backdrop-blur-md">
         {images.length} Photos
       </div>
     </div>

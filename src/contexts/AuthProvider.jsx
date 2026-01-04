@@ -17,7 +17,7 @@ export const AuthProvider = ({ children }) => {
           .select("*")
           .eq("user_id", userId)
           .single();
-        
+
         if (error) {
           console.error("Profile fetch error:", error);
           return null;
@@ -31,7 +31,9 @@ export const AuthProvider = ({ children }) => {
 
     const initialize = async () => {
       try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const {
+          data: { session },
+        } = await supabase.auth.getSession();
         const currentUser = session?.user || null;
         setUser(currentUser);
         if (currentUser) {
@@ -47,11 +49,17 @@ export const AuthProvider = ({ children }) => {
 
     initialize();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
       const currentUser = session?.user || null;
       setUser(currentUser);
 
-      if (event === "SIGNED_IN" || event === "USER_UPDATED" || event === "TOKEN_REFRESHED") {
+      if (
+        event === "SIGNED_IN" ||
+        event === "USER_UPDATED" ||
+        event === "TOKEN_REFRESHED"
+      ) {
         if (currentUser) {
           const p = await fetchProfile(currentUser.id);
           setProfile(p);
@@ -59,7 +67,7 @@ export const AuthProvider = ({ children }) => {
       } else if (event === "SIGNED_OUT") {
         setProfile(null);
       }
-      
+
       setLoading(false);
     });
 

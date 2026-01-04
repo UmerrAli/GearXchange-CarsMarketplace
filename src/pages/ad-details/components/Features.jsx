@@ -14,19 +14,23 @@ function Features({ adDetails }) {
           availableFeatures.map((feature) => (
             <li
               key={feature}
-              className="text-lg text-muted-foreground flex items-center bg-muted/20 p-3 rounded-xl border border-border/30 hover:bg-muted/40 transition-colors group"
+              className="group flex items-center rounded-xl border border-border/30 bg-muted/20 p-3 text-lg text-muted-foreground transition-colors hover:bg-muted/40"
             >
               <span
-                className="mr-3 text-primary bg-primary/10 p-1.5 rounded-lg group-hover:scale-110 transition-transform"
+                className="mr-3 rounded-lg bg-primary/10 p-1.5 text-primary transition-transform group-hover:scale-110"
                 aria-label="Enabled feature"
               >
-                <CiCircleCheck className="w-5 h-5" />
+                <CiCircleCheck className="h-5 w-5" />
               </span>
-              <span className="font-medium tracking-tight whitespace-nowrap">{feature}</span>
+              <span className="whitespace-nowrap font-medium tracking-tight">
+                {feature}
+              </span>
             </li>
           ))
         ) : (
-          <p className="text-muted-foreground italic text-center py-4 bg-muted/20 rounded-xl border border-dashed border-border">No specific features listed</p>
+          <p className="rounded-xl border border-dashed border-border bg-muted/20 py-4 text-center italic text-muted-foreground">
+            No specific features listed
+          </p>
         )}
       </ul>
     </div>

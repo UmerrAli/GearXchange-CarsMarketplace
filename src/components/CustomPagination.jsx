@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -11,27 +10,27 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
   }
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-12 py-4 border-t border-border/50">
+    <div className="mt-12 flex items-center justify-center gap-2 border-t border-border/50 py-4">
       <Button
         variant="outline"
         size="icon"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 0}
-        className="rounded-xl border-border/50 hover:bg-muted/50 transition-all active:scale-95"
+        className="rounded-xl border-border/50 transition-all hover:bg-muted/50 active:scale-95"
       >
         <ChevronLeft className="h-5 w-5" />
       </Button>
 
-      <div className="flex items-center gap-1.5 mx-4">
+      <div className="mx-4 flex items-center gap-1.5">
         {pages.map((page) => (
           <Button
             key={page}
             variant={currentPage === page ? "default" : "ghost"}
             size="sm"
             onClick={() => onPageChange(page)}
-            className={`w-10 h-10 rounded-xl font-bold transition-all active:scale-90 ${
-              currentPage === page 
-                ? "shadow-lg shadow-primary/25" 
+            className={`h-10 w-10 rounded-xl font-bold transition-all active:scale-90 ${
+              currentPage === page
+                ? "shadow-lg shadow-primary/25"
                 : "text-muted-foreground hover:bg-muted/50"
             }`}
           >
@@ -45,7 +44,7 @@ const CustomPagination = ({ currentPage, totalPages, onPageChange }) => {
         size="icon"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages - 1}
-        className="rounded-xl border-border/50 hover:bg-muted/50 transition-all active:scale-95"
+        className="rounded-xl border-border/50 transition-all hover:bg-muted/50 active:scale-95"
       >
         <ChevronRight className="h-5 w-5" />
       </Button>

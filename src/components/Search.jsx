@@ -5,7 +5,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-  SelectLabel,  
+  SelectLabel,
   SelectGroup,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
@@ -29,22 +29,19 @@ function Search({ onSearch }) {
     if (city) filters.city = city;
 
     if (priceRange) {
-      if (priceRange === "< 5 Lacs"){
+      if (priceRange === "< 5 Lacs") {
         filters.maxPrice = 500000;
-      }
-      else if (priceRange === "> 100 Lacs"){
+      } else if (priceRange === "> 100 Lacs") {
         filters.minPrice = 1000000;
+      } else {
+        const match = priceRange.match(/(\d+)\s*-\s*(\d+)/);
+        const maxPrice = parseInt(match[2]) * 100000;
+        const minPrice = parseInt(match[1]) * 100000;
+        filters.maxPrice = maxPrice;
+        filters.minPrice = minPrice;
       }
-      else{
-      const match = priceRange.match(/(\d+)\s*-\s*(\d+)/);
-      const maxPrice = parseInt(match[2]) * 100000;
-      const minPrice = parseInt(match[1]) * 100000;
-      filters.maxPrice = maxPrice;
-      filters.minPrice = minPrice;
-      }
-  
     }
-  
+
     if (onSearch) {
       onSearch(filters);
     } else {
@@ -60,14 +57,14 @@ function Search({ onSearch }) {
   };
 
   return (
-    <div className="flex outline outline-border/50 sm:gap-5 items-center gap-4 flex-col md:flex-row p-4 rounded-md md:rounded-full bg-background/80 backdrop-blur-md px-5 w-full shadow-lg dark:bg-slate-900/80">
+    <div className="flex w-full flex-col items-center gap-4 rounded-md bg-background/80 p-4 px-5 shadow-lg outline outline-border/50 backdrop-blur-md dark:bg-slate-900/80 sm:gap-5 md:flex-row md:rounded-full">
       <Select
         onValueChange={(value) => {
           setMake(value);
           setModel("");
         }}
       >
-        <SelectTrigger className="outline-none md:border-none w-full shadow-none bg-transparent">
+        <SelectTrigger className="w-full bg-transparent shadow-none outline-none md:border-none">
           <SelectValue placeholder="Car Make" />
         </SelectTrigger>
         <SelectContent>
@@ -86,7 +83,7 @@ function Search({ onSearch }) {
         onValueChange={(value) => setModel(value)}
         value={model}
       >
-        <SelectTrigger className="outline-none md:border-none w-full shadow-none bg-transparent">
+        <SelectTrigger className="w-full bg-transparent shadow-none outline-none md:border-none">
           <SelectValue placeholder="Car Model" />
         </SelectTrigger>
         <SelectContent>
@@ -101,7 +98,7 @@ function Search({ onSearch }) {
         <Separator orientation="vertical" className="hidden md:block" />
       </div>
       <Select onValueChange={(value) => setCity(value)}>
-        <SelectTrigger className="outline-none md:border-none w-full shadow-none bg-transparent">
+        <SelectTrigger className="w-full bg-transparent shadow-none outline-none md:border-none">
           <SelectValue placeholder="City" />
         </SelectTrigger>
         <SelectContent>
@@ -109,11 +106,11 @@ function Search({ onSearch }) {
             <div key={provinceGroup.province}>
               <SelectGroup>
                 <SelectLabel>{provinceGroup.province}</SelectLabel>
-              {provinceGroup.cities.map((city) => (
-                <SelectItem key={city} value={city}>
-                  {city}
-                </SelectItem>
-              ))}
+                {provinceGroup.cities.map((city) => (
+                  <SelectItem key={city} value={city}>
+                    {city}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </div>
           ))}
@@ -123,7 +120,7 @@ function Search({ onSearch }) {
         <Separator orientation="vertical" className="hidden md:block" />
       </div>
       <Select onValueChange={(value) => setPriceRange(value)}>
-        <SelectTrigger className="outline-none md:border-none w-full shadow-none bg-transparent">
+        <SelectTrigger className="w-full bg-transparent shadow-none outline-none md:border-none">
           <SelectValue placeholder="Price" />
         </SelectTrigger>
         <SelectContent>
@@ -136,7 +133,7 @@ function Search({ onSearch }) {
       </Select>
       <div className="flex items-center">
         <HiSearch
-          className="size-7 hover:scale-105 cursor-pointer transition-all"
+          className="size-7 cursor-pointer transition-all hover:scale-105"
           onClick={handleSearch}
         />
       </div>

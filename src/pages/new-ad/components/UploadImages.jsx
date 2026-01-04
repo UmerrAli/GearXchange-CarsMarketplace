@@ -13,25 +13,25 @@ function UploadImages({ selectedFileList, setSelectedFileList }) {
   }
   return (
     <div>
-      <div className="flex items-center flex-wrap gap-4">
+      <div className="flex flex-wrap items-center gap-4">
         <label htmlFor="images" className="group">
           <div>
-            <div className="border-2 border-dashed rounded-2xl w-[140px] h-[140px] flex items-center justify-center font-bold border-muted-foreground/30 bg-muted/30 text-3xl text-muted-foreground cursor-pointer hover:bg-muted/50 hover:border-primary/50 hover:text-primary transition-all duration-300">
+            <div className="flex h-[140px] w-[140px] cursor-pointer items-center justify-center rounded-2xl border-2 border-dashed border-muted-foreground/30 bg-muted/30 text-3xl font-bold text-muted-foreground transition-all duration-300 hover:border-primary/50 hover:bg-muted/50 hover:text-primary">
               +
             </div>
           </div>
         </label>
         {selectedFileList?.map((image, index) => (
-          <div key={index} className="relative group">
-            <div className="absolute -top-3 -right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div key={index} className="group relative">
+            <div className="absolute -right-3 -top-3 z-10 opacity-0 transition-opacity group-hover:opacity-100">
               <IoIosCloseCircleOutline
-                className="text-2xl text-red-600 cursor-pointer bg-background rounded-full shadow-lg hover:scale-110 transition-transform"
+                className="cursor-pointer rounded-full bg-background text-2xl text-red-600 shadow-lg transition-transform hover:scale-110"
                 onClick={() => onImageRemove(image)}
               />
             </div>
             <img
               src={URL.createObjectURL(image)}
-              className="w-[140px] h-[140px] object-cover rounded-2xl border border-border/50 shadow-sm"
+              className="h-[140px] w-[140px] rounded-2xl border border-border/50 object-cover shadow-sm"
               alt={`Selected ${index}`}
             />
           </div>
@@ -40,7 +40,7 @@ function UploadImages({ selectedFileList, setSelectedFileList }) {
           type="file"
           multiple={true}
           id="images"
-          className="opacity-0 hidden"
+          className="hidden opacity-0"
           onChange={onFileSelected}
         />
       </div>

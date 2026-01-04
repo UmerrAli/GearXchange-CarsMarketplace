@@ -11,7 +11,16 @@ const features_Defination = [
 const carMakes = ["Toyota", "Honda", "Suzuki", "Hyundai", "Kia", "Mitsubishi"];
 
 const carModels = {
-  Toyota: ["Corolla", "Yaris", "Fortuner", "Prius", "Land Cruiser", "Hilux", "Parado", "Camry"],
+  Toyota: [
+    "Corolla",
+    "Yaris",
+    "Fortuner",
+    "Prius",
+    "Land Cruiser",
+    "Hilux",
+    "Parado",
+    "Camry",
+  ],
   Honda: ["Civic", "City", "Vezel", "BR-V", "Accord"],
   Suzuki: ["Swift", "Cultus", "Alto", "Wagon R", "Bolan", "Mehran"],
   Hyundai: ["Tucson", "Elantra", "Sonata", "Santa Fe"],
