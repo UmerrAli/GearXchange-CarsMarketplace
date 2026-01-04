@@ -12,6 +12,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
+import { ModeToggle } from "@/components/mode-toggle";
 
 function Header() {
   const navigate = useNavigate();
@@ -25,17 +26,17 @@ function Header() {
   const NavItems = () => (
     <>
       <Link to={"/"}>
-        <li className="font-medium text-gray-700 hover:text-primary transition-colors cursor-pointer text-sm md:text-base">
+        <li className="font-medium text-gray-700 hover:text-primary transition-colors cursor-pointer text-sm md:text-base dark:text-gray-200 dark:hover:text-primary">
           Home
         </li>
       </Link>
       <Link to={"/used"}>
-        <li className="font-medium text-gray-700 hover:text-primary transition-colors cursor-pointer text-sm md:text-base">
+        <li className="font-medium text-gray-700 hover:text-primary transition-colors cursor-pointer text-sm md:text-base dark:text-gray-200 dark:hover:text-primary">
           Used Cars
         </li>
       </Link>
       <Link to={"/about-us"}>
-        <li className="font-medium text-gray-700 hover:text-primary transition-colors cursor-pointer text-sm md:text-base">
+        <li className="font-medium text-gray-700 hover:text-primary transition-colors cursor-pointer text-sm md:text-base dark:text-gray-200 dark:hover:text-primary">
           About Us
         </li>
       </Link>
@@ -56,12 +57,13 @@ function Header() {
 
         {/* Desktop Auth Buttons */}
         <div className="hidden md:flex items-center gap-4">
+          <ModeToggle />
           {user ? (
             <>
               <Link to={"/profile"}>
                 <Button className="font-semibold shadow-md active:scale-95 transition-transform" variant="default">Post an Ad</Button>
               </Link>
-              <Button variant="ghost" onClick={handleSignOut} className="font-medium text-gray-600 hover:bg-gray-100 hover:text-red-500">
+              <Button variant="ghost" onClick={handleSignOut} className="font-medium text-gray-600 hover:bg-gray-100 hover:text-red-500 dark:text-gray-300 dark:hover:bg-slate-800 dark:hover:text-red-400">
                 Sign Out
               </Button>
             </>
@@ -82,7 +84,10 @@ function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[300px] sm:w-[350px]">
               <SheetHeader>
-                <SheetTitle className="text-left mb-6 font-bold text-2xl font-serif">Menu</SheetTitle>
+                <div className="flex justify-between items-center mb-6">
+                  <SheetTitle className="text-left font-bold text-2xl font-serif">Menu</SheetTitle>
+                  <ModeToggle />
+                </div>
                 <div className="flex flex-col gap-6 text-lg">
                   <div className="flex flex-col gap-4 list-none">
                     <NavItems />

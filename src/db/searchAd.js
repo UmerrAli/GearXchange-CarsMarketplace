@@ -1,7 +1,12 @@
 import { supabase } from "../../configs/supabase-config";
 
-export const searchAds = async (filters) => {
-    let query = supabase.from("cars").select("*, car_images(image_url, position)");
+export const searchAds = async (filters, page = 0, pageSize = 8) => {
+    const from = page * pageSize;
+    const to = from + pageSize - 1;
+
+    let query = supabase
+        .from("cars")
+        .select("*, car_images(image_url, position)", { count: "exact" });
 
     // Apply filters if they exist
     if (filters.make && filters.make !== "") {
@@ -28,10 +33,17 @@ export const searchAds = async (filters) => {
         query = query.lte("price", parseInt(filters.maxPrice));
     }
 
-    const { data, error } = await query;
+    console.log(filters)
+
+    // Apply pagination and sorting
+    query = query
+        .order("created_at", { ascending: false })
+        .range(from, to);
+
+    const { data, error, count } = await query;
 
     if (error) {
-        return { data: null, error };
+        return { data: null, error, count: 0 };
     }
 
     const formattedData = data.map((car) => {
@@ -48,5 +60,5 @@ export const searchAds = async (filters) => {
         };
     });
 
-    return { data: formattedData, error: null };
+    return { data: formattedData, error: null, count };
 };

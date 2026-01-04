@@ -13,24 +13,27 @@ function UploadImages({ selectedFileList, setSelectedFileList }) {
   }
   return (
     <div>
-      <div className="flex items-center flex-wrap gap-3">
-        <label htmlFor="images">
+      <div className="flex items-center flex-wrap gap-4">
+        <label htmlFor="images" className="group">
           <div>
-            <div className="border rounded-xl px-3 py-1 font-bold border-solid border-primary bg-slate-200 text-xl text-center cursor-pointer hover:bg-slate-300 transition-all">
+            <div className="border-2 border-dashed rounded-2xl w-[140px] h-[140px] flex items-center justify-center font-bold border-muted-foreground/30 bg-muted/30 text-3xl text-muted-foreground cursor-pointer hover:bg-muted/50 hover:border-primary/50 hover:text-primary transition-all duration-300">
               +
             </div>
           </div>
         </label>
         {selectedFileList?.map((image, index) => (
-          <div key={index} className="flex gap-3 flex-wrap">
-            <IoIosCloseCircleOutline
-              className="absolute text-xl text-red-600 cursor-pointer bg-white rounded-xl"
-              onClick={() => onImageRemove(image, index)}
-            />
+          <div key={index} className="relative group">
+            <div className="absolute -top-3 -right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+              <IoIosCloseCircleOutline
+                className="text-2xl text-red-600 cursor-pointer bg-background rounded-full shadow-lg hover:scale-110 transition-transform"
+                onClick={() => onImageRemove(image)}
+              />
+            </div>
             <img
               src={URL.createObjectURL(image)}
-              className="w-full h-[120px] object-cover"
-            ></img>
+              className="w-[140px] h-[140px] object-cover rounded-2xl border border-border/50 shadow-sm"
+              alt={`Selected ${index}`}
+            />
           </div>
         ))}
         <input

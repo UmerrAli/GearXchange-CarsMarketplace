@@ -131,27 +131,31 @@ function AdUpsert() {
   return (
     <div>
       <Header />
-      <div className="px-6 md:px-16 lg:px-32 py-12">
-        <h2 className="font-bold text-3xl text-center mb-10">
+      <div className="px-4 py-8 md:px-16 lg:px-32 md:py-12 bg-background transition-colors duration-300">
+        <h2 className="font-bold text-3xl md:text-4xl text-center mb-8 md:mb-10 text-foreground">
           {isEditMode ? "Edit Your Ad" : "Create a New Ad"}
         </h2>
         <form
-          className="bg-white shadow-lg rounded-lg p-8 grid gap-8"
+          className="bg-card text-card-foreground shadow-2xl rounded-3xl p-6 md:p-12 border border-border grid gap-8 md:gap-10"
           onSubmit={onSubmit}
         >
           {/* Car Details */}
           <div>
-            <h3 className="font-semibold text-xl mb-4">Car Details</h3>
-            <div className="grid gap-4 sm:grid-cols-2">
+            <h3 className="font-bold text-2xl mb-6 text-foreground border-b border-border pb-2 inline-flex items-center gap-2">
+              <span className="w-1 h-6 bg-primary rounded-full" />
+              Car Details
+            </h3>
+            <div className="grid gap-6 sm:grid-cols-2">
               {carDetails.map((detail) => (
-                <div key={detail.name}>
-                  <label className="block text-sm mb-2">{detail.label}</label>
+                <div key={detail.name} className="space-y-2">
+                  <label className="text-sm font-semibold tracking-wide text-muted-foreground uppercase opacity-80">{detail.label}</label>
                   {!detail.isDropdown && detail.type !== "dropdown" ? (
                     <Input
                       name={detail.name}
                       type={detail.type}
                       required
                       autoComplete="off"
+                      className="bg-background/50"
                       value={formData[detail.name] || ""}
                       onChange={(e) => handleInputChange(detail.name, e.target.value)}
                     />
@@ -162,7 +166,7 @@ function AdUpsert() {
                       onValueChange={(value) => handleInputChange(detail.name, value)}
                       disabled={detail.name === "model" && !formData.make}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="bg-background/50">
                         <SelectValue placeholder={`Select ${detail.label}`} />
                       </SelectTrigger>
                       <SelectContent>
@@ -173,7 +177,7 @@ function AdUpsert() {
                           typeof option === "object" && option.province ? (
                             <div key={option.province}>
                               <SelectGroup>
-                                <SelectLabel>{option.province}</SelectLabel>
+                                <SelectLabel className="font-bold text-primary">{option.province}</SelectLabel>
                                 {option.cities.map((city) => (
                                   <SelectItem key={city} value={city}>
                                     {city}
@@ -195,28 +199,34 @@ function AdUpsert() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm mb-2">Description</label>
+          <div className="space-y-2">
+            <label className="text-sm font-semibold tracking-wide text-muted-foreground uppercase opacity-80">Description</label>
             <Textarea
               name="description"
+              className="bg-background/50 min-h-[150px] rounded-xl focus:ring-primary/20"
               value={formData.description || ""}
               onChange={(e) => handleInputChange("description", e.target.value)}
+              placeholder="Tell us something about your car..."
             />
           </div>
 
           {/* Features */}
-          <div className="mt-5">
-            <h3 className="font-semibold text-xl mb-4">Features</h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div className="mt-5 p-6 bg-muted/30 rounded-2xl border border-border/50">
+            <h3 className="font-bold text-2xl mb-6 text-foreground inline-flex items-center gap-2">
+              <span className="w-1 h-6 bg-primary rounded-full" />
+              Features
+            </h3>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {features_Defination.map((feature) => (
-                <div key={feature.name} className="flex items-center space-x-2">
+                <div key={feature.name} className="flex items-center space-x-3 group">
                   <Checkbox
                     name={feature.name}
                     id={feature.name}
+                    className="w-5 h-5 rounded-md border-muted-foreground/30 data-[state=checked]:bg-primary"
                     checked={!!formData[feature.name]}
                     onCheckedChange={(value) => handleInputChange(feature.name, value)}
                   />
-                  <Label htmlFor={feature.name}>{feature.label}</Label>
+                  <Label htmlFor={feature.name} className="text-sm font-medium cursor-pointer group-hover:text-primary transition-colors">{feature.label}</Label>
                 </div>
               ))}
             </div>
@@ -224,22 +234,27 @@ function AdUpsert() {
 
           {/* Upload Images */}
           <div className="mt-5">
-            <h3 className="font-semibold text-xl mb-4">Upload Images</h3>
+            <h3 className="font-bold text-2xl mb-6 text-foreground inline-flex items-center gap-2">
+              <span className="w-1 h-6 bg-primary rounded-full" />
+              Upload Images
+            </h3>
             
             {existingImages.length > 0 && (
-              <div className="mb-4">
-                <p className="text-sm text-gray-600 mb-2">Existing images:</p>
-                <div className="flex gap-4 flex-wrap">
+              <div className="mb-8 p-4 bg-muted/20 rounded-2xl border border-border/40">
+                <p className="text-sm font-medium text-muted-foreground mb-4">Existing images:</p>
+                <div className="flex gap-6 flex-wrap">
                   {existingImages.map((imgUrl, index) => (
-                    <div key={index} className="relative flex-shrink-0">
-                      <IoIosCloseCircleOutline
-                        className="absolute -top-2 -right-2 z-10 text-xl text-red-600 cursor-pointer bg-white rounded-full shadow-md hover:scale-110 transition-transform"
-                        onClick={() => handleRemoveExistingImage(index)}
-                      />
+                    <div key={index} className="relative group">
+                      <div className="absolute -top-3 -right-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <IoIosCloseCircleOutline
+                          className="text-2xl text-red-600 cursor-pointer bg-background rounded-full shadow-lg hover:scale-110 transition-transform"
+                          onClick={() => handleRemoveExistingImage(index)}
+                        />
+                      </div>
                       <img
                         src={imgUrl}
                         alt={`Existing ${index}`}
-                        className="w-[120px] h-[120px] object-cover rounded-xl border border-gray-200"
+                        className="w-[140px] h-[140px] object-cover rounded-2xl border border-border/50 shadow-sm"
                       />
                     </div>
                   ))}
@@ -253,14 +268,14 @@ function AdUpsert() {
             />
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center pt-6 border-t border-border mt-6">
             {loading ? (
-              <Button disabled className="w-full max-w-xs">
-                {isEditMode ? "Updating..." : "Submitting..."}
+              <Button disabled className="w-full max-w-md py-6 text-lg rounded-2xl shadow-xl">
+                <span className="animate-pulse">{isEditMode ? "Updating..." : "Submitting..."}</span>
               </Button>
             ) : (
-              <Button type="submit" className="w-full max-w-xs">
-                {isEditMode ? "Update Ad" : "Submit"}
+              <Button type="submit" className="w-full max-w-md py-6 text-lg rounded-2xl shadow-xl shadow-primary/20 hover:shadow-primary/40 active:scale-95 transition-all">
+                {isEditMode ? "Update Ad" : "Submit Listing"}
               </Button>
             )}
           </div>

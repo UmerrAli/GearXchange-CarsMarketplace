@@ -5,12 +5,15 @@ import { RouterProvider } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthProvider";
 import { router } from "@/router/AppRouter.jsx";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/contexts/theme-provider";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <RouterProvider router={router} />
-      <Toaster />
-    </AuthProvider>
+    <ThemeProvider storageKey="vite-ui-theme" attribute="class">
+      <AuthProvider>
+        <RouterProvider router={router} />
+        <Toaster />
+      </AuthProvider>
+    </ThemeProvider>
   </StrictMode>
 );

@@ -8,26 +8,25 @@ function Features({ adDetails }) {
     .map((featureDef) => featureDef.label);
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mt-5">Features</h1>
-      <ul className="mt-3 space-y-2">
+    <div className="w-full">
+      <ul className="grid grid-cols-1 gap-4">
         {availableFeatures.length > 0 ? (
           availableFeatures.map((feature) => (
             <li
               key={feature}
-              className="text-lg text-gray-700 flex items-center"
+              className="text-lg text-muted-foreground flex items-center bg-muted/20 p-3 rounded-xl border border-border/30 hover:bg-muted/40 transition-colors group"
             >
               <span
-                className="material-icons-outlined mr-2 text-green-500"
+                className="mr-3 text-primary bg-primary/10 p-1.5 rounded-lg group-hover:scale-110 transition-transform"
                 aria-label="Enabled feature"
               >
-                <CiCircleCheck />
+                <CiCircleCheck className="w-5 h-5" />
               </span>
-              {feature}
+              <span className="font-medium tracking-tight whitespace-nowrap">{feature}</span>
             </li>
           ))
         ) : (
-          <p className="text-gray-500">No features available</p>
+          <p className="text-muted-foreground italic text-center py-4 bg-muted/20 rounded-xl border border-dashed border-border">No specific features listed</p>
         )}
       </ul>
     </div>

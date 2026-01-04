@@ -22,43 +22,52 @@ function Search({ onSearch }) {
   const navigate = useNavigate();
 
   const handleSearch = () => {
-    // Build filters object
     const filters = {};
 
     if (make) filters.make = make;
     if (model) filters.model = model;
     if (city) filters.city = city;
 
-    // Parse price range (e.g., "5 Lacs" -> maxPrice)
     if (priceRange) {
-      const priceValue = parseInt(priceRange.replace(/\D/g, "")) * 100000; // Convert lacs to actual number
-      filters.maxPrice = priceValue;
+      if (priceRange === "< 5 Lacs"){
+        filters.maxPrice = 500000;
+      }
+      else if (priceRange === "> 100 Lacs"){
+        filters.minPrice = 1000000;
+      }
+      else{
+      const match = priceRange.match(/(\d+)\s*-\s*(\d+)/);
+      const maxPrice = parseInt(match[2]) * 100000;
+      const minPrice = parseInt(match[1]) * 100000;
+      filters.maxPrice = maxPrice;
+      filters.minPrice = minPrice;
+      }
+  
     }
-
-    // Call the onSearch callback if provided (for Used Cars page)
+  
     if (onSearch) {
       onSearch(filters);
     } else {
-      // Otherwise, this is on home page, navigate to used cars page with query params
       const queryParams = new URLSearchParams();
       if (filters.make) queryParams.append("make", filters.make);
       if (filters.model) queryParams.append("model", filters.model);
       if (filters.city) queryParams.append("city", filters.city);
       if (filters.maxPrice) queryParams.append("maxPrice", filters.maxPrice);
+      if (filters.minPrice) queryParams.append("minPrice", filters.minPrice);
 
       navigate(`/used?${queryParams.toString()}`);
     }
   };
 
   return (
-    <div className="flex outline outline-[0.1vw] sm:gap-5 items-center gap-4 flex-col md:flex-row p-4 rounded-md md:rounded-full bg-white px-5 w-full">
+    <div className="flex outline outline-border/50 sm:gap-5 items-center gap-4 flex-col md:flex-row p-4 rounded-md md:rounded-full bg-background/80 backdrop-blur-md px-5 w-full shadow-lg dark:bg-slate-900/80">
       <Select
         onValueChange={(value) => {
           setMake(value);
           setModel("");
         }}
       >
-        <SelectTrigger className="outline-none md:border-none w-full shadow-none">
+        <SelectTrigger className="outline-none md:border-none w-full shadow-none bg-transparent">
           <SelectValue placeholder="Car Make" />
         </SelectTrigger>
         <SelectContent>
@@ -77,7 +86,7 @@ function Search({ onSearch }) {
         onValueChange={(value) => setModel(value)}
         value={model}
       >
-        <SelectTrigger className="outline-none md:border-none w-full shadow-none">
+        <SelectTrigger className="outline-none md:border-none w-full shadow-none bg-transparent">
           <SelectValue placeholder="Car Model" />
         </SelectTrigger>
         <SelectContent>
@@ -92,7 +101,7 @@ function Search({ onSearch }) {
         <Separator orientation="vertical" className="hidden md:block" />
       </div>
       <Select onValueChange={(value) => setCity(value)}>
-        <SelectTrigger className="outline-none md:border-none w-full shadow-none">
+        <SelectTrigger className="outline-none md:border-none w-full shadow-none bg-transparent">
           <SelectValue placeholder="City" />
         </SelectTrigger>
         <SelectContent>
@@ -114,7 +123,7 @@ function Search({ onSearch }) {
         <Separator orientation="vertical" className="hidden md:block" />
       </div>
       <Select onValueChange={(value) => setPriceRange(value)}>
-        <SelectTrigger className="outline-none md:border-none w-full shadow-none">
+        <SelectTrigger className="outline-none md:border-none w-full shadow-none bg-transparent">
           <SelectValue placeholder="Price" />
         </SelectTrigger>
         <SelectContent>

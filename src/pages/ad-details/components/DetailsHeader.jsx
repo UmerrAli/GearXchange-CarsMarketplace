@@ -21,30 +21,30 @@ function DetailsHeader({ adDetails }) {
             >
               <Dialog>
                 <DialogTrigger asChild>
-                  <div className="relative w-full aspect-video bg-gray-100 rounded-lg overflow-hidden cursor-zoom-in flex items-center justify-center">
+                  <div className="relative w-full aspect-video bg-muted rounded-2xl overflow-hidden cursor-zoom-in flex items-center justify-center">
                     <img
                       src={image}
                       alt={`Image ${index + 1}`}
-                      className="object-contain hover:scale-105 transition-transform duration-500"
+                      className="object-contain w-full h-full hover:scale-110 transition-transform duration-700 ease-out"
                     />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors pointer-events-none" />
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors pointer-events-none" />
                   </div>
                 </DialogTrigger>
-                <DialogContent className="max-w-[90vw] max-h-[90vh] w-full h-full border-none bg-transparent shadow-none p-0 flex items-center justify-center">
+                <DialogContent className="max-w-[95vw] max-h-[95vh] w-full h-full border-none bg-background/95 backdrop-blur-xl shadow-none p-0 flex items-center justify-center rounded-3xl overflow-hidden">
                   <img
                     src={image}
                     alt={`Full view ${index + 1}`}
-                    className="max-w-full max-h-full object-contain rounded-md"
+                    className="max-w-full max-h-full object-contain shadow-2xl"
                   />
                 </DialogContent>
               </Dialog>
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious className="left-4 bg-white/80 hover:bg-white text-gray-800 border-none shadow-md" />
-        <CarouselNext className="right-4 bg-white/80 hover:bg-white text-gray-800 border-none shadow-md" />
+        <CarouselPrevious className="left-6 bg-background/80 hover:bg-background text-foreground border-border shadow-xl backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all" />
+        <CarouselNext className="right-6 bg-background/80 hover:bg-background text-foreground border-border shadow-xl backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all" />
       </Carousel>
-      <div className="absolute bottom-4 right-4 bg-black/60 text-white text-xs px-2 py-1 rounded-md pointer-events-none">
+      <div className="absolute bottom-6 right-6 bg-background/90 text-foreground text-xs font-bold px-4 py-2 rounded-full border border-border shadow-lg backdrop-blur-md pointer-events-none tracking-widest uppercase">
         {images.length} Photos
       </div>
     </div>

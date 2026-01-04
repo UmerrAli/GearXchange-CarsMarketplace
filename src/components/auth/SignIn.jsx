@@ -40,32 +40,31 @@ const SignIn = () => {
             setError(err.message);
         }
     };
-
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">
-            <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md dark:bg-gray-800">
+        <div className="flex items-center justify-center min-h-screen bg-background transition-colors duration-300">
+            <div className="w-full max-w-md p-8 sm:p-12 space-y-8 bg-card text-card-foreground rounded-3xl shadow-2xl border border-border">
                 <div className="text-center">
-                    <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white">
-                        Sign in to your account
+                    <h2 className="text-4xl font-extrabold text-foreground tracking-tight">
+                        Welcome Back
                     </h2>
-                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        Welcome back to GearXchange
+                    <p className="mt-3 text-sm text-muted-foreground">
+                        Sign in to your GearXchange account
                     </p>
                 </div>
 
                 {error && (
-                    <div className="p-3 text-sm text-red-500 bg-red-100 rounded-md dark:bg-red-900/30">
+                    <div className="p-4 text-sm text-destructive bg-destructive/10 rounded-xl border border-destructive/20 animate-in fade-in slide-in-from-top-1">
                         {error}
                     </div>
                 )}
 
-                <form className="space-y-4" onSubmit={handleEmailLogin}>
-                    <div>
+                <form className="space-y-5" onSubmit={handleEmailLogin}>
+                    <div className="space-y-2">
                         <label
                             htmlFor="email"
-                            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                            className="text-xs font-bold uppercase tracking-widest text-muted-foreground opacity-70"
                         >
-                            Email address
+                            Email Address
                         </label>
                         <Input
                             id="email"
@@ -73,15 +72,15 @@ const SignIn = () => {
                             required
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
-                            placeholder="Enter your email"
-                            className="mt-1"
+                            placeholder="name@example.com"
+                            className="bg-background/50 py-6 rounded-xl"
                         />
                     </div>
 
-                    <div>
+                    <div className="space-y-2">
                         <label
                             htmlFor="password"
-                            className="block text-sm font-medium text-gray-700 dark:text-gray-300"
+                            className="text-xs font-bold uppercase tracking-widest text-muted-foreground opacity-70"
                         >
                             Password
                         </label>
@@ -91,22 +90,22 @@ const SignIn = () => {
                             required
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Enter your password"
-                            className="mt-1"
+                            placeholder="••••••••"
+                            className="bg-background/50 py-6 rounded-xl"
                         />
                     </div>
 
-                    <Button type="submit" className="w-full" disabled={loading}>
-                        {loading ? "Signing in..." : "Sign in"}
+                    <Button type="submit" className="w-full py-6 text-lg rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/40 active:scale-95 transition-all" disabled={loading}>
+                        {loading ? "Signing in..." : "Sign In"}
                     </Button>
                 </form>
 
-                <div className="relative">
+                <div className="relative py-4">
                     <div className="absolute inset-0 flex items-center">
-                        <div className="w-full border-t border-gray-300 dark:border-gray-700"></div>
+                        <div className="w-full border-t border-border"></div>
                     </div>
-                    <div className="relative flex justify-center text-sm">
-                        <span className="px-2 bg-white text-gray-500 dark:bg-gray-800">
+                    <div className="relative flex justify-center text-xs uppercase tracking-widest">
+                        <span className="px-4 bg-card text-muted-foreground">
                             Or continue with
                         </span>
                     </div>
@@ -114,18 +113,18 @@ const SignIn = () => {
 
                 <Button
                     variant="outline"
-                    className="w-full flex items-center justify-center gap-2"
+                    className="w-full flex items-center justify-center gap-3 py-6 rounded-xl border-border hover:bg-muted/50 transition-colors"
                     onClick={handleGoogleLogin}
                 >
-                    <FcGoogle className="h-5 w-5" />
-                    Sign in with Google
+                    <FcGoogle className="h-6 w-6" />
+                    <span className="font-semibold">Google Account</span>
                 </Button>
 
-                <div className="text-center mt-4">
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="text-center mt-8 pt-6 border-t border-border">
+                    <p className="text-sm text-muted-foreground">
                         Don&apos;t have an account?{" "}
-                        <Link to="/sign-up" className="text-blue-600 hover:underline">
-                            Sign up
+                        <Link to="/sign-up" className="text-primary font-bold hover:underline transition-all">
+                            Create Account
                         </Link>
                     </p>
                 </div>
