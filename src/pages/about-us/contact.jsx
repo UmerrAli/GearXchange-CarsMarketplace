@@ -86,7 +86,7 @@ function Contact() {
                   className="block"
                 >
                   <Button
-                    className="w-full gap-2 rounded-xl py-6 text-lg shadow-lg transition-transform active:scale-95"
+                    className="w-full gap-2 rounded-xl py-6 text-lg shadow-md transition-transform active:scale-95"
                     variant="default"
                   >
                     <Github className="h-6 w-6" />

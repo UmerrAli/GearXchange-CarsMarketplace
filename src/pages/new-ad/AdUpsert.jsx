@@ -303,7 +303,7 @@ function AdUpsert() {
             {loading ? (
               <Button
                 disabled
-                className="w-full max-w-md rounded-2xl py-6 text-lg shadow-xl"
+                className="w-full max-w-md rounded-2xl py-6 text-lg shadow-md"
               >
                 <span className="animate-pulse">
                   {isEditMode ? "Updating..." : "Submitting..."}
@@ -312,7 +312,7 @@ function AdUpsert() {
             ) : (
               <Button
                 type="submit"
-                className="w-full max-w-md rounded-2xl py-6 text-lg shadow-xl shadow-primary/20 transition-all hover:shadow-primary/40 active:scale-95"
+                className="w-full max-w-md rounded-2xl py-6 text-lg shadow-md shadow-primary/20 transition-all hover:shadow-primary/40 active:scale-95"
               >
                 {isEditMode ? "Update Ad" : "Submit Listing"}
               </Button>
