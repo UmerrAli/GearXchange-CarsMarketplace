@@ -7,6 +7,7 @@ import Profile from "@/pages/profile/profile";
 import AdUpsert from "@/pages/new-ad/AdUpsert";
 import SignIn from "@/components/auth/SignIn";
 import SignUp from "@/components/auth/SignUp";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
@@ -19,11 +20,19 @@ export const router = createBrowserRouter([
   },
   {
     path: "/profile",
-    element: <Profile />,
+    element: (
+      <ProtectedRoute>
+        <Profile />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/ad-upsert",
-    element: <AdUpsert />,
+    element: (
+      <ProtectedRoute>
+        <AdUpsert />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/used",

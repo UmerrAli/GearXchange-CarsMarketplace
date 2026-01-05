@@ -31,6 +31,9 @@ export const signIn = async (email, password) => {
 
 export const signOut = async () => {
   const { error } = await supabase.auth.signOut();
+  if (error) {
+    console.error("Error signing out:", error);
+  }
   return { error };
 };
 
@@ -44,6 +47,16 @@ export const onAuthStateChange = (callback) => {
     callback(session?.user || null);
   });
   return data.subscription.unsubscribe;
+};
+
+export const getUserProfile = async (userId) => {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("user_id", userId)
+    .single();
+
+  return { data, error };
 };
 
 export { supabase };

@@ -78,7 +78,7 @@ function Header() {
             </>
           ) : (
             <Link to={"/sign-in"}>
-              <Button className="font-semibold shadow-lg shadow-primary/20 transition-all hover:shadow-primary/40 active:scale-95">
+              <Button className="font-semibold shadow-md shadow-primary/20 transition-all hover:shadow-primary/40 active:scale-95">
                 Post an Ad
               </Button>
             </Link>

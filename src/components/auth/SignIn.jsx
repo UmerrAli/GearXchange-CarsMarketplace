@@ -2,7 +2,7 @@ import { useState } from "react";
 import { signIn } from "../../../configs/supabase-config";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { supabase } from "../../../configs/supabase-config";
 
@@ -12,6 +12,8 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from || "/";
 
   const handleEmailLogin = async (e) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ const SignIn = () => {
       const { user, error } = await signIn(email, password);
       if (error) throw error;
       if (user) {
-        navigate("/"); // Redirect to home or previous page
+        navigate(from, { replace: true });
       }
     } catch (err) {
       setError(err.message);

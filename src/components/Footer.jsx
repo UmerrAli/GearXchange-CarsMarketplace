@@ -10,14 +10,14 @@ function Footer() {
           <div className="lg:flex lg:items-end lg:justify-between">
             <div>
               <Logo size="sm" />
-              <p className="mx-auto mt-4 max-w-md text-center leading-relaxed text-muted-foreground lg:text-left">
+              <p className="mx-auto mt-4 text-center text-xs leading-relaxed text-muted-foreground sm:mx-0 sm:text-left sm:text-base">
                 The ultimate car marketplace to buy and sell cars seamlessly.
                 Trusted by thousands of car enthusiasts.
               </p>
             </div>
           </div>
 
-          <p className="mt-8 text-center text-sm text-muted-foreground lg:text-right">
+          <p className="mt-6 text-center text-xs text-muted-foreground sm:text-left">
             Copyright &copy; {new Date().getFullYear()} GearXchange. All rights
             reserved.
           </p>

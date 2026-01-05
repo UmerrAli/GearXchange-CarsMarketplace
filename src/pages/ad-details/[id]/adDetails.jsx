@@ -37,7 +37,6 @@ function AdDetails() {
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground transition-colors duration-300">
       <Header />
-
       <main className="flex-grow px-4 py-10 sm:px-8 lg:px-12">
         {loading ? (
           <div className="flex h-[60vh] items-center justify-center">
@@ -48,7 +47,7 @@ function AdDetails() {
             {/* Main Content Grid */}
             <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-2 lg:gap-16">
               {/* Left Column: Image Gallery */}
-              <div className="sticky top-24 w-full">
+              <div className="top-24 w-full lg:sticky">
                 <div className="overflow-hidden rounded-3xl border border-border bg-card p-2 shadow-xl transition-all duration-300 hover:shadow-2xl">
                   <DetailsHeader adDetails={adDetails} />
                 </div>
@@ -122,7 +121,7 @@ function AdDetails() {
                         setShowPhoneNumber(true);
                       }
                     }}
-                    className="mt-4 w-full transform rounded-2xl bg-primary py-8 text-xl font-bold tracking-wide shadow-xl shadow-primary/30 transition-all hover:-translate-y-1 hover:bg-primary/90 active:scale-95"
+                    className="mt-4 w-full transform rounded-2xl bg-primary py-8 text-xl font-bold tracking-wide shadow-lg shadow-primary/20 transition-all hover:-translate-y-1 hover:bg-primary/90 active:scale-95"
                   >
                     Reveal Seller Phone Number
                   </Button>

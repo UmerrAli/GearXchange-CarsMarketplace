@@ -46,10 +46,6 @@ function Profile() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!profile) {
-      navigate("/");
-      return;
-    }
     async function fetchAds() {
       try {
         if (profile) {
@@ -189,7 +185,7 @@ function Profile() {
           <Link to={phoneNumberAvailable ? "/ad-upsert" : ""}>
             <Button
               disabled={!phoneNumberAvailable}
-              className="rounded-2xl px-8 py-6 text-lg shadow-xl shadow-primary/20 transition-all active:scale-95"
+              className="rounded-2xl px-8 py-6 text-lg shadow-lg shadow-primary/20 transition-all active:scale-95"
             >
               <span className="mr-2 text-xl">+</span> Add New Ad
             </Button>
@@ -247,7 +243,7 @@ function Profile() {
                           </AlertDialogCancel>
                           <AlertDialogAction
                             onClick={() => handleDelete(car.id)}
-                            className="rounded-xl bg-destructive px-6 hover:bg-destructive/90"
+                            className="rounded-xl bg-destructive px-6 shadow-destructive/20 transition-all hover:bg-destructive/90 hover:shadow-destructive/30"
                           >
                             Delete Permanently
                           </AlertDialogAction>

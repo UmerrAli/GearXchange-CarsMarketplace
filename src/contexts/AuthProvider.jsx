@@ -1,5 +1,5 @@
 import { useEffect, useState, createContext } from "react";
-import { supabase } from "../../configs/supabase-config";
+import { supabase, getUserProfile } from "../../configs/supabase-config";
 
 export const AuthContext = createContext(null);
 
@@ -9,23 +9,25 @@ export const AuthProvider = ({ children }) => {
   const [profile, setProfile] = useState(null);
 
   useEffect(() => {
-    const fetchProfile = async (userId) => {
-      if (!userId) return null;
-      try {
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("user_id", userId)
-          .single();
+    let mounted = true;
 
-        if (error) {
+    const handleSession = async (session) => {
+      const currentUser = session?.user || null;
+      if (!mounted) return;
+
+      setUser(currentUser);
+
+      if (currentUser) {
+        const { data: userProfile, error } = await getUserProfile(
+          currentUser.id,
+        );
+        if (mounted && !error) {
+          setProfile(userProfile);
+        } else if (error) {
           console.error("Profile fetch error:", error);
-          return null;
         }
-        return data;
-      } catch (error) {
-        console.error("Exception in fetchProfile:", error);
-        return null;
+      } else if (mounted) {
+        setProfile(null);
       }
     };
 
@@ -34,16 +36,11 @@ export const AuthProvider = ({ children }) => {
         const {
           data: { session },
         } = await supabase.auth.getSession();
-        const currentUser = session?.user || null;
-        setUser(currentUser);
-        if (currentUser) {
-          const p = await fetchProfile(currentUser.id);
-          setProfile(p);
-        }
+        await handleSession(session);
       } catch (error) {
         console.error("Initialization error:", error);
       } finally {
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     };
 
@@ -51,27 +48,14 @@ export const AuthProvider = ({ children }) => {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
-      const currentUser = session?.user || null;
-      setUser(currentUser);
-
-      if (
-        event === "SIGNED_IN" ||
-        event === "USER_UPDATED" ||
-        event === "TOKEN_REFRESHED"
-      ) {
-        if (currentUser) {
-          const p = await fetchProfile(currentUser.id);
-          setProfile(p);
-        }
-      } else if (event === "SIGNED_OUT") {
-        setProfile(null);
-      }
-
-      setLoading(false);
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      handleSession(session).finally(() => {
+        if (mounted) setLoading(false);
+      });
     });
 
     return () => {
+      mounted = false;
       subscription?.unsubscribe();
     };
   }, []);
