@@ -98,12 +98,4 @@
   .dark .glass {
     @apply border border-white/10 bg-slate-950/70 shadow-none backdrop-blur-xl;
   }
-
-  .glass-card {
-    @apply border border-border/50 bg-card/50 shadow-sm backdrop-blur-sm transition-all hover:shadow-md;
-  }
-
-  .text-glow {
-    text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
-  }
 }

@@ -20,7 +20,7 @@ function Hero() {
       <div className="relative z-10 mx-auto w-full max-w-4xl py-12 text-center sm:py-20 lg:py-24">
         <h1 className="mb-6 text-5xl font-extrabold tracking-tight text-foreground drop-shadow-sm md:text-7xl">
           Find Your Dream Car{" "}
-          <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-primary text-transparent dark:to-blue-400">
+          <span className="bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-primary dark:to-blue-400">
             Today
           </span>
         </h1>
