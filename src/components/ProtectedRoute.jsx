@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { AuthContext } from "@/contexts/AuthProvider";
 
-const ProtectedRoute = ({ children }) => {
-  const { user, loading } = useContext(AuthContext);
+const ProtectedRoute = ({ children, checkPhone = false }) => {
+  const { user, loading, profile } = useContext(AuthContext);
   const location = useLocation();
 
   if (loading) {
@@ -18,6 +18,10 @@ const ProtectedRoute = ({ children }) => {
     return (
       <Navigate to="/sign-in" replace state={{ from: location.pathname }} />
     );
+  }
+
+  if (checkPhone && (!profile || !profile.phone)) {
+    return <Navigate to="/profile" replace />;
   }
 
   return children;

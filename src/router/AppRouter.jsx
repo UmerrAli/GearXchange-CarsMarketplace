@@ -29,7 +29,7 @@ export const router = createBrowserRouter([
   {
     path: "/ad-upsert",
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute checkPhone={true}>
         <AdUpsert />
       </ProtectedRoute>
     ),

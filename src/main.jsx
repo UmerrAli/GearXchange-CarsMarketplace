@@ -9,7 +9,11 @@ import { ThemeProvider } from "@/contexts/theme-provider";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ThemeProvider storageKey="vite-ui-theme" attribute="class">
+    <ThemeProvider
+      defaultTheme="dark"
+      storageKey="vite-ui-theme"
+      attribute="class"
+    >
       <AuthProvider>
         <RouterProvider router={router} />
         <Toaster />
