@@ -33,8 +33,6 @@ export const searchAds = async (filters, page = 0, pageSize = 8) => {
     query = query.lte("price", parseInt(filters.maxPrice));
   }
 
-  console.log(filters);
-
   // Apply pagination and sorting
   query = query.order("created_at", { ascending: false }).range(from, to);
 
