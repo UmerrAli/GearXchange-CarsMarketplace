@@ -9,18 +9,18 @@ function Contact() {
       <Header />
       <main className="flex-grow px-2 md:px-6">
         {/* Hero Section */}
-        <div className="py-6 md:py-12 text-center">
+        <div className="py-6 text-center md:py-12">
           <h1 className="font-display mb-6 bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-2xl font-extrabold tracking-tight text-transparent dark:to-blue-400 md:text-5xl">
             About GearXchange
           </h1>
-          <p className="max-w-2xl text-md leading-relaxed text-muted-foreground md:text-xl mx-4">
+          <p className="text-md mx-4 max-w-2xl leading-relaxed text-muted-foreground md:text-xl">
             {
               "Revolutionizing the way you buy and sell cars. Trusted, transparent, and built for enthusiasts."
             }
           </p>
         </div>
 
-        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 md:py-8 md:grid-cols-2 lg:gap-20">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-12 px-6 md:grid-cols-2 md:py-8 lg:gap-20">
           {/* Mission Content */}
           <div className="space-y-6">
             <h2 className="font-display text-xl font-bold text-foreground">
@@ -55,7 +55,7 @@ function Contact() {
                   <p className="text-sm font-semibold uppercase tracking-wider text-muted-foreground/60">
                     Email
                   </p>
-                  <p className="text-sm md:text-md font-medium text-foreground">
+                  <p className="md:text-md text-sm font-medium text-foreground">
                     support@gearxchange.com
                   </p>
                 </div>
@@ -76,7 +76,7 @@ function Contact() {
               </div>
 
               <div className="border-t border-border pt-6">
-                <h4 className="mb-4 text-sm sm:text-lg font-semibold text-foreground">
+                <h4 className="mb-4 text-sm font-semibold text-foreground sm:text-lg">
                   Connect with the Developer
                 </h4>
                 <a
@@ -86,7 +86,7 @@ function Contact() {
                   className="block"
                 >
                   <Button
-                    className="w-full gap-2 rounded-xl py-6 text-sm sm:text-lg shadow-md transition-transform active:scale-95"
+                    className="w-full gap-2 rounded-xl py-6 text-sm shadow-md transition-transform active:scale-95 sm:text-lg"
                     variant="default"
                   >
                     <Github className="h-6 w-6" />
