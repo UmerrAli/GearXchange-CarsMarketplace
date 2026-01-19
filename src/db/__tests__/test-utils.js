@@ -65,7 +65,6 @@ export async function createTestUser(email, password) {
   return { user: authData.user, profile: profileData, error: null };
 }
 
-
 /**
  * Generates test car data
  * @param {number} profileId - Profile ID

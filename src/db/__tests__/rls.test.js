@@ -57,8 +57,6 @@ describe("Row Level Security (RLS) Tests", () => {
     testCar2 = car2;
   });
 
-
-
   describe("Cars Table - Anonymous User Tests", () => {
     it("should allow anonymous users to view all cars (SELECT)", async () => {
       const anonClient = createAnonClient();

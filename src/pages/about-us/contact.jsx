@@ -10,13 +10,12 @@ function Contact() {
       <main className="flex-grow px-2 md:px-6">
         {/* Hero Section */}
         <div className="py-6 text-center md:py-12">
-          <h1 className="font-display mb-6 bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-2xl font-extrabold tracking-tight text-transparent dark:to-blue-400 md:text-5xl">
+          <h1 className="font-display mb-6 text-2xl font-extrabold tracking-tight text-primary md:text-5xl">
             About GearXchange
           </h1>
-          <p className="text-md mx-4 max-w-2xl leading-relaxed text-muted-foreground md:text-xl">
-            {
-              "Revolutionizing the way you buy and sell cars. Trusted, transparent, and built for enthusiasts."
-            }
+          <p className="text-md mx-4 leading-relaxed text-muted-foreground md:text-xl">
+            Revolutionizing the way you buy and sell cars. Trusted, transparent,
+            and built for enthusiasts.
           </p>
         </div>
 
