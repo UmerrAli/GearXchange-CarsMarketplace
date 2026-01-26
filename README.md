@@ -2,7 +2,7 @@
 
 GearXchange is a modern web application designed solely for buying and selling used cars. It provides a seamless experience for users to browse listings, view detailed car information, and post their own ads.
 
-## 🚀 Features
+## Features
 
 - **Browse & Search:** Easily search for cars by make, city, price range, and more.
 - **Detailed Listings:** View comprehensive details for each car, including specifications, features, and high-quality images.
@@ -11,19 +11,19 @@ GearXchange is a modern web application designed solely for buying and selling u
 - **Responsive Design:** Fully responsive interface built with Tailwind CSS, ensuring a great experience on both desktop and mobile devices.
 - **Modern UI:** A polished user interface using Shadcn UI components.
 
-## 🌐 Live Demo
+## Live Demo
 
 Check out the live application here: [Live Site Link](https://gear-xchange-cars-marketplace.vercel.app/)
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** [React](https://reactjs.org/) (Vite)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-- **UI Components:** [Shadcn UI](https://ui.shadcn.com/) / Radix UI
-- **Routing:** [React Router DOM](https://reactrouter.com/)
-- **Backend / Database:** [Supabase](https://supabase.com/) (Auth, Database, Storage)
+- **Frontend:** React 
+- **Styling:** Tailwind CSS
+- **UI Components:** Shadcn UI
+- **Routing:** React Router DOM
+- **Backend / Database:** Supabase (Auth, Database, Storage)
 
-## 💻 How to Run Locally
+## How to Run Locally
 
 Follow these steps to set up the project locally on your machine.
 
